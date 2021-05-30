@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd" >
+<properties>
+	<comment>globals properties</comment>
+	<entry key="Globals.OsType">UNIX</entry>
+	<entry key="Globals.DBGubun">dev</entry><!-- Globals.DBGubun의 real dev에 따라 운영 DB 개발 DB를 보도록 변경 중요!!! -->
+	
+	<!-- MASTER DATABASE -->
+	<entry key="Globals.DbType">${${Globals.DBGubun}.Globals.DbType}</entry>
+	<entry key="Globals.DriverClassName">${${Globals.DBGubun}.Globals.DriverClassName}</entry>
+	<entry key="Globals.Url">${${Globals.DBGubun}.Globals.Url}</entry>
+	<entry key="Globals.UserName">${${Globals.DBGubun}.Globals.UserName}</entry>
+	<entry key="Globals.Password">${${Globals.DBGubun}.Globals.Password}</entry>
+	<entry key="Globals.httpdomain">${${Globals.DBGubun}.Globals.httpdomain}</entry>
+	<entry key="Globals.LoggerYN">${${Globals.DBGubun}.Globals.LoggerYN}</entry>
+	<entry key="Globals.apiConnectUrl">${${Globals.DBGubun}.Globals.apiConnectUrl}</entry>
+	
+	<!-- MASTER SMS DATABASE -->
+	<entry key="Globals.My_DriverClassName">${${Globals.DBGubun}.Globals.My_DriverClassName}</entry>
+	<entry key="Globals.My_Url">${${Globals.DBGubun}.Globals.My_Url}</entry>
+	<entry key="Globals.My_UserName">${${Globals.DBGubun}.Globals.My_UserName}</entry>
+	<entry key="Globals.My_Password">${${Globals.DBGubun}.Globals.My_Password}</entry>
+	
+	<!-- MASTER GENEXON ERP DATABASE(오라클 - 지넥슨 상용서버) -->
+	<entry key="Globals.ORACLE_DriverClassName">oracle.jdbc.driver.OracleDriver</entry>
+	<entry key="Globals.ORACLE_Url"></entry>
+	<entry key="Globals.ORACLE_UserName"></entry>
+	<entry key="Globals.ORACLE_Password"></entry>
+	
+	<!-- [대내] REAL DATABASE -->
+	<entry key="real.Globals.DbType">oracle</entry>
+	<entry key="real.Globals.DriverClassName">oracle.jdbc.driver.OracleDriver</entry>
+	<entry key="real.Globals.Url"></entry>
+	<entry key="real.Globals.UserName"></entry>
+	<entry key="real.Globals.Password"></entry>
+	<entry key="real.Globals.httpdomain">http://api.devsnote.kr</entry>
+	<entry key="real.Globals.LoggerYN">Y</entry>
+	<entry key="real.Globals.apiConnectUrl">REAL</entry>
+	
+	<!-- REAL SMS DATABASE -->
+	<entry key="real.Globals.My_DriverClassName">org.mariadb.jdbc.Driver</entry>
+	<entry key="real.Globals.My_Url"></entry>
+	<entry key="real.Globals.My_UserName"></entry>
+	<entry key="real.Globals.My_Password"></entry>
+	
+	<!-- [대외 개발용] DEV DATABASE -->
+	<!-- 대내로 들어올 때 아래로 변경해야함. 2021.02.03 -->
+	<entry key="dev.Globals.DbType">oracle</entry>
+	<entry key="dev.Globals.DriverClassName">oracle.jdbc.driver.OracleDriver</entry>
+	<entry key="dev.Globals.Url"></entry>
+	<entry key="dev.Globals.UserName"></entry>
+	<entry key="dev.Globals.Password"></entry>
+	<entry key="dev.Globals.httpdomain">http://api.devsnote.kr</entry>
+	<entry key="dev.Globals.LoggerYN">Y</entry>
+	<entry key="dev.Globals.apiConnectUrl">DEV</entry>
+	
+	<!-- [대내] DEV DATABASE -->
+	<!-- <entry key="dev.Globals.DbType">oracle</entry>
+	<entry key="dev.Globals.DriverClassName">oracle.jdbc.driver.OracleDriver</entry>
+	<entry key="dev.Globals.Url">ENC(otsv2jNFc4whgLw91XlYNxWNFiMZfuvnHTYCQ4J8mDpwwA5f7tQt/dKdRTBWCqnU917I4y9xwUs=)</entry>
+	<entry key="dev.Globals.UserName">ENC(Zz8lobjA44fKJFMZIBGZvA==)</entry>
+	<entry key="dev.Globals.Password">ENC(ZXEw82F3lm9W0HhguXPOtxBCSjfdPrW/)</entry>
+	<entry key="dev.Globals.httpdomain">http://vdevsaleap.hanwhalifefs.com:7401</entry>
+	<entry key="dev.Globals.LoggerYN">Y</entry>
+	<entry key="dev.Globals.apiConnectUrl">DEV</entry> -->
+	
+	
+	
+</properties>

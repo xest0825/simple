@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- Appenders -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+<!-- 		<param name="Target" value="System.out" /> -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p [%d{yyyy/MM/dd HH:mm:ss.SSS}] : %m %n" />
+		</layout>		
+	</appender>
+    <appender name="all" class="org.apache.log4j.RollingFileAppender">
+<!--         <param name="file" value="${web.root}/WEB-INF/logs/log4j.log" />
+        <param name="Append" value="true"/>
+        <param name="MaxFileSize" value="100MB"/>
+       <param name="MaxBackupIndex" value="5"/>   -->
+        <layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p [%d{yyyy/MM/dd HH:mm:ss.SSS}] : %m %n" />
+        </layout>
+    </appender>
+    
+	<!-- Application Loggers -->
+	<logger name="rapidex.system"  additivity="false">
+		<level value="debug" />
+        <appender-ref ref="console"/>
+        <appender-ref ref="all"/>
+	</logger>
+    
+    <logger name="rapidex.system.interceptor.InterceptorAdapter"  additivity="false">
+        <level value="debug" />
+        <appender-ref ref="console"/>
+        <appender-ref ref="all"/>
+    </logger>
+    <logger name="rapidex.system.interceptor.QueryInterceptor"  additivity="false">
+        <level value="debug" />
+        <appender-ref ref="console"/>
+        <appender-ref ref="all"/>
+    </logger>
+	<logger name="rapidex.system.interceptor.UpdateInterceptor"  additivity="false">
+        <level value="debug" />
+        <appender-ref ref="console"/>
+        <appender-ref ref="all"/>
+    </logger>
+    <logger name="rapidex.common"  additivity="false">
+        <level value="debug" />
+        <appender-ref ref="console"/>
+    </logger>
+	
+	<logger name="jdbc.sqlonly" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="console"/>
+    </logger>
+    
+    <logger name="java.sql" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="java.sql.Statement" additivity="false">
+        <level value="debug"/>
+        <appender-ref ref="console"/>
+    </logger>
+    <logger name="java.sql.ResultSet" additivity="false">
+        <level value="info"/>
+        <appender-ref ref="console"/>
+    </logger>
+    
+    
+    <logger name="com.ibatis">
+        <level value="debug"/>
+        <appender-ref ref="console" />
+    </logger>
+    
+    <logger name="org.mybatis.spring.SqlSessionUtils">
+        <level value="info"/>
+        <appender-ref ref="console" />
+    </logger>
+    
+    <logger name="org.sitemesh">
+        <level value="debug"/>
+        <appender-ref ref="console" />
+    </logger>
+    
+	<!-- 3rdparty Loggers -->
+	<logger name="org.springframework.core"  additivity="false">
+		<level value="info" />
+        <appender-ref ref="console"/>
+        <appender-ref ref="all"/>
+	</logger>
+	
+	<logger name="org.springframework.beans"  additivity="false">
+		<level value="info" />
+        <appender-ref ref="console"/>
+        <appender-ref ref="all"/>
+	</logger>
+	
+	<logger name="org.springframework.context"  additivity="false">
+		<level value="info" />
+        <appender-ref ref="console"/>
+        <appender-ref ref="all"/>
+	</logger>
+
+	<logger name="org.springframework.web"  additivity="false">
+		<level value="info" />
+        <appender-ref ref="console"/>
+        <appender-ref ref="all"/>
+	</logger>
+
+	<!-- Root Logger -->
+	<root>
+		<priority value="DEBUG" />
+        <appender-ref ref="all"/>
+	</root>
+	
+</log4j:configuration>

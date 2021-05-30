@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE XML>
+<!-- 30초마다 설정 파일의 변경을 확인한다. 파일이 변경되면 다시 로딩한다 -->
+<configuration scan="true" scanPriod="30 seconds">
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>LGB [%d{yyyy-MM-dd HH:mm:ss}][%-5level][%logger{36}] - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="DAILY_ROLLING_FILE_APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/usr/local/tomcat/logs/logback.log</file>
+        <encoder>
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss}:%-3relative][%thread] %-5level %logger{35} - %msg%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_PATH}/logback.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>5MB</maxFileSize>
+                <!-- kb, mb, gb -->
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+<!--     <logger name="genexon" level="DEBUG">
+        <appender-ref ref="DAILY_ROLLING_FILE_APPENDER" />
+    </logger>
+ -->
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>

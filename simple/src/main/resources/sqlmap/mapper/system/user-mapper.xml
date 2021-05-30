@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="User">
+
+	<sql id="getUserSql">
+		SELECT tb2.user_id
+			 , tb1.login_id
+			 , tb2.user_nm
+			 , tb1.login_pw
+		  FROM tb_sy_login tb1
+		  JOIN tb_sy_user tb2
+		    ON tb1.user_id = tb2.user_id
+		 WHERE 1 = 1 
+	</sql>
+	
+	<select id="getLoginUser" parameterType="hmap" resultType="rapidex.system.security.model.User">
+		/* user-mapper.xml getLoginUser */
+		<include refid="getUserSql"/>
+		<if test='@rapidex.common.util.CommUtil@isNotEmpty(login_id)'>
+			AND tb1.login_id = #{login_id}
+		</if>
+	</select>
+	
+</mapper>

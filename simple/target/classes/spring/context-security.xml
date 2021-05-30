@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans
+                                 http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+                                 http://www.springframework.org/schema/security
+                                 http://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+    <http pattern="/favicon.ico"           security="none"/>
+    <http pattern="/resources/**/*"        security="none"/>
+	<http pattern="/files/**/*"            security="none"/>
+    <http pattern="/login.go"          	   security="none"/>
+    <http pattern="/m/login.go"            security="none"/>
+    
+    
+    <http pattern="/m/**" auto-config="true" use-expressions="true" authentication-manager-ref="mobileAuthManager">
+    	<csrf disabled="true"/>
+    	
+    	<intercept-url pattern="/m/login.do"  access="permitAll" />
+		<access-denied-handler error-page="/m/login.go"/>
+		
+		<form-login login-page="/m/login.go"
+					login-processing-url="/m/login.do"
+					authentication-success-handler-ref="mobileAuthSuccessHandler"
+					authentication-failure-handler-ref="mobileAuthFailureHandler"/>
+		
+		<logout invalidate-session="true" delete-cookies="true" logout-success-url="/m/login.go" logout-url="/m/logout.do" />
+		
+    </http>
+    
+    <authentication-manager id="mobileAuthManager">
+    	<authentication-provider ref="mobileAuthProvider"/>
+    </authentication-manager>
+
+	<beans:bean id="mobileAuthProvider"	class="rapidex.system.security.MobileAuthenticationProvider" />
+	
+	<beans:bean id="mobileAuthSuccessHandler"			class="rapidex.system.security.handler.MobileAuthenticationSuccessHandler" /> 
+	<beans:bean id="mobileAuthFailureHandler"			class="rapidex.system.security.handler.MobileAuthenticationFailureHandler" />
+    
+
+
+
+	<http auto-config="true" use-expressions="true" authentication-manager-ref="webAuthManager">
+		<headers>
+    		<frame-options disabled="true"></frame-options>
+    	</headers>
+    	
+        <intercept-url pattern="/login.do" 		access="permitAll" />
+        
+		<csrf request-matcher-ref="csrfSecurityRequestMatcher"/>
+        <custom-filter after="BASIC_AUTH_FILTER" ref="jwtAuthenticationFilter"/>
+
+    	<access-denied-handler ref="webAccessDeniedHandler"/>
+        
+        <form-login 
+        			login-processing-url="/login.do"
+        			username-parameter="login_id"
+        			password-parameter="login_pw"
+        			authentication-success-handler-ref="webAuthSuccessHandler" 
+        			authentication-failure-handler-ref="webAuthFailureHandler" />
+		
+		<logout invalidate-session="true" logout-success-url="/login.go" logout-url="/logout.do" />
+    </http>
+    
+    <authentication-manager id="webAuthManager">
+    	<authentication-provider ref="webAuthProvider"/>
+    </authentication-manager>
+
+	<beans:bean id="webAuthProvider"				class="rapidex.system.security.WebAuthenticationProvider" />
+    
+	<beans:bean id="webAuthSuccessHandler"			class="rapidex.system.security.handler.WebAuthenticationSuccessHandler" />
+	<beans:bean id="webAuthFailureHandler"			class="rapidex.system.security.handler.WebAuthenticationFailureHandler" />    
+
+	<beans:bean id="csrfSecurityRequestMatcher"		class="rapidex.system.security.CsrfSecurityRequestMatcher"/>
+	<beans:bean id="jwtAuthenticationFilter" 		class="rapidex.system.filter.JwtAuthenticationFilter" />
+
+    <beans:bean id="webAccessDeniedHandler"			class="rapidex.system.security.handler.WebAccessDeniedHandler">
+    	<beans:property name="redirect" value="false"></beans:property>
+    	<beans:property name="errorPage" value="/access_denied"></beans:property>
+    </beans:bean>
+
+	<beans:bean id="passwordEncoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder" />
+
+</beans:beans>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.1.0</tlibversion>
+	<jspversion>2.1</jspversion>
+	<shortname>string</shortname>
+	<uri>http://localhost:8080</uri>
+	<info>
+		The String Tag library provides a host of tags for manipulating 
+		java.lang.Strings. The style is that the String to act upon is the 
+		body of the tag, and attributes are used as parameters for the 
+		manipulation.
+  	</info>
+	<tag>
+		<name>cutStrByLength</name>
+    	<tagclass>kr.co.gnx.comm.taglib.CutStringByLength</tagclass>
+    	<bodycontent>JSP</bodycontent>
+    	<attribute>
+			<name>extraString</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>length</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>cutStrByByte</name>
+    	<tagclass>kr.co.gnx.comm.taglib.CutStringByByte</tagclass>
+    	<bodycontent>JSP</bodycontent>
+    	<attribute>
+			<name>extraString</name>
+			<required>false</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>length</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+	<tag>
+		<name>strToHTML</name>
+    	<tagclass>kr.co.gnx.comm.taglib.StrToHTML</tagclass>
+    	<bodycontent>JSP</bodycontent>
+	</tag>
+	<tag>
+		<name>removeTag</name>
+    	<tagclass>kr.co.gnx.comm.taglib.RemoveTag</tagclass>
+    	<bodycontent>JSP</bodycontent>
+	</tag>
+	
+	<tag>
+		<name>format</name>
+    	<tagclass>kr.co.gnx.comm.taglib.Format</tagclass>
+    	<bodycontent>JSP</bodycontent>
+    	<attribute>
+			<name>formattype</name>
+			<required>true</required>
+			<rtexprvalue>false</rtexprvalue>
+		</attribute>
+	</tag>
+</taglib>
+
+
+
+
+
+
+
+

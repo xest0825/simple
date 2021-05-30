@@ -1,0 +1,3 @@
+import org.owasp.esapi.waf.actions.*;
+session.setAttribute("simple_waf_test", "true");
+action = new RedirectAction();

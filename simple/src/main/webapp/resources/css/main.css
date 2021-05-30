@@ -1,0 +1,36 @@
+/*----------------12.12 ����---------------- */
+.bg_con{background:#fff; margin-left: 13px}
+.bg_con h1{color:#252525; font-size:20px; padding-bottom:20px; border-bottom:1px dashed #ddd; }
+.bg_con span{font-size:12px; color:#555; float:right; text-align:right; font-weight:normal ; margin-right: 15px}
+.bg_con h2{color:#252525; font-size:15px; margin-bottom:12px; margin-top:20px; }
+ul.r_top li.title{color:#35529c; font-size:15px; font-weight:bold; width:100%; margin: 8px 8px 8px 8px ;}
+ul.text_line li.day{color:#3755a1; font-size:12px; }
+ul.text_line {padding:5px 0; color:#6f7f83; font-size:14px; }
+ul.text_line li span{color:#a6a6a5; font-size:12px; }
+
+.day{font-size:13px; color:#888;}
+.box_board{margin-top:14px; color:#888; font-size:13px; line-height:18px;}
+.dash{border-bottom:1px dotted #dbdada;}
+.text_line{padding:8px 0px; line-height:18px;}
+.con{float:left; margin-top:0px; margin-left:15px; width:1165px;}
+.board_01{float:left; margin-right:13px;background:#fff;}
+.board_02{float:left; width:438px; height:339px;background:#fff; border-radius:4px; border:1px solid #d3d3d3;}
+.board_03{
+	float: left;
+    width: 49%;
+    height: 313px;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #d3d3d3;
+}
+
+
+.t_head {padding:0px 0px 0px 0px;}
+.t_body {padding:0px 15px 0px 15px;}
+
+.onlyonerow{
+	text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    overflow: hidden;
+}

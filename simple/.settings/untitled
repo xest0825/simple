@@ -1,0 +1,87 @@
+
+
+로그인 요청 
+발신 - 수신 : "RPM(로봇설계매니저) - RPA",
+URL : "URL/api/fcLgin",
+method : "post",
+contentType : "json",
+dataType : "json",
+encoding : "utf-8"
+
+request : 
+{
+	"tr_id"          : "uuid", 			/* 지넥슨에서 정의, 결과 데이터에 포함 요망 */
+	"login_id"       : "FC20210001",	/* 로그인 아이디 */
+	"login_pw" 	     : "password",		/* 로그인 비밀번호 */
+	"login_type"     : "1", 			/* "1"|"2" 아이디 비번 로그인인지 2차 로그인인지 구분 */
+	"second_auth_no" : "", 				/* 2차 인증 번호, 아이디 비번 로그인 시에는 빈문자열, 2차 인증시 인증 번호 전송 예정 */
+	"cust_mob_no"    : "01011112222"    /* 고객휴대폰 번호 */
+},
+
+result : 
+{
+	"tr_id"   : "uuid", 						/* 지넥슨에서 정의, 요청 데이터 그대로 전송 요망 */
+	"res_cd"  : "1" ,  						/* 1 성공, 0 실패, 또는 에러 */
+	"res_msg" : "성공이나 실패/오류시 적절한 메시지",
+	"req_dtm" : "2021-05-24 10:00:00", 		/* 요청 일시 */
+	"res_dtm" : "2021-05-24 10:00:01", 		/* 응답 일시 */
+}
+==========
+
+고객에게 가입설계 동의 URL 요청 : 별도로 호출할 필요가 없다면 FC 계정으로 MetDO 로그인시 가입설계 동의 URL 전송도 연이어 실시
+발신 - 수신 : "RPM(로봇설계매니저) - RPA",
+URL : "URL/api/sendCusomterPlanAgreementUrl",
+method : "post",
+contentType : "json",
+dataType : "json",
+encoding : "utf-8",
+
+request : 
+{
+	
+	"tr_id"        : "uuid", 		/* 지넥슨에서 정의, 결과 데이터에 포함 요망 */
+	"login_id" 	   : "FC20210001",
+	"cust_mob_no"  : "01011112222"  /* 고객휴대폰 번호 */
+
+}
+
+response : 
+{
+	
+	"tr_id"   : "uuid", 						/* 지넥슨에서 정의, 요청 데이터 그대로 전송 요망 */
+	"res_cd"  : "1" ,  						/* 1 성공, 0 실패, 또는 에러 */
+	"res_msg" : "성공이나 실패/오류시 적절한 메시지",
+	"req_dtm" : "2021-05-24 10:00:00", 		/* 요청 일시 */
+	"res_dtm" : "2021-05-24 10:00:01", 		/* 응답 일시 */
+
+}
+
+==========
+MetDO에 고객의 가입설계동의 정보가 저장 사실 통보
+발신 - 수신 : "RPA - RPM",
+URL : "http(s)://rpm.genexon.co.kr/api/notice/customerPlanAgreement" 
+method : "post",
+contentType : "json",
+dataType : "json",
+encoding : "utf-8",
+
+request : 
+{
+	"fc_id" 	  : "FC20210001", /*FC의 로그인 id를 FC ID 로 사용 */
+	"cust_mob_no" : "01011112222",  /* 고객휴대폰 번호 */
+	"result" : "고객 가입설계 동의"
+
+}
+
+response : 
+{
+	
+	"res_cd" : "1" ,  						/* 1 수신완료, 0 실패, 또는 에러 */
+	"res_msg" : "성공이나 실패/오류시 적절한 메시지",
+	"req_dtm" : "2021-05-24 10:00:00", 		/* 요청 일시 */
+	"res_dtm" : "2021-05-24 10:00:01", 		/* 응답 일시 */
+
+}
+
+===========
+

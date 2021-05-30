@@ -1,0 +1,479 @@
+@charset "utf-8";
+
+/* ==================== GOLBAL ==================== */
+*{margin:0;padding:0;font-family:dotum,'돋움', Gulim, Arial, Verdana, AppleGothic, sans-serif;}
+body{background-color:#fff;color:#666;font-size:12px;line-height:120%;}
+
+ul, ol, li{list-style:none; }
+img, hr{border:none;}
+img{vertical-align:top; border:0px ;}
+
+
+
+/* Link Style */
+a:link{text-decoration:none; }
+a:visited{text-decoration:none; }
+a:active{text-decoration:none; }
+
+/* Table Style */
+table{border-collapse:collapse;  border-spacing:0; table-layout:fixed; }
+table td img{vertical-align:middle;}
+
+/* tag all font-size set */
+a,em,span { color:inherit;  font-family:inherit; font-size:inherit; line-height: inherit; }
+
+/* From Style */
+textarea{padding:5px; border: solid 1px #bdbdbd; background-color:#fff;}
+input{vertical-align:middle;}
+input.txt,
+input.text,
+input.it{height: 22px; line-height:23px; border: solid 1px #bdbdbd; background-color:#fff;}
+input.chk{}
+input.radio{}
+select          {height: 24px; line-height:24px; border: solid 1px #bdbdbd; background-color:#fff;vertical-align:middle;}
+hr, caption     {display:none;}
+legend          {position:absolute; height:0; font-size:0px; line-height:0; overflow:hidden; text-indent:-20000px; }
+address,cite,em {font-style:normal;}
+fieldset        {border:0; padding:0; }
+label           {cursor:pointer;}
+
+body{word-wrap:break-word;-webkit-text-size-adjust:none;}
+img, fieldset, button{border:none;}
+caption{visibility:hidden;line-height:0;}
+li, dl, dt, dd{list-style:none;}
+textarea{overflow:auto;} 
+legend{position:absolute;top:0;left:0;width:0;height:0;overflow:hidden;visibility:hidden;font-size:0;line-height:0;} /* For Screen Reader */ 
+
+/* Color */
+.col_blue{color:#0084ff !important;}
+
+/* 메뉴 */
+.menutree {
+    top: 35px;
+    left: 75px;
+    overflow: auto;
+    position: fixed;
+    padding-left: 15px;
+    padding-top: 30px;
+    padding-right: 7px;
+    height: 89%;
+    width: 200px;
+    z-index: 999999999;
+    background: url(/img/gnb_bg_2.png) repeat-y right top;
+    scrollbar-face-color: #cccccc;
+    scrollbar-shadow-color: #ffffff;
+    scrollbar-highlight-color: #ffffff;
+    scrollbar-3dlight-color: #cccccc;
+    scrollbar-darkshadow-color: #cccccc;
+    scrollbar-track-color: #cccccc;
+    scrollbar-arrow-color: #006600;
+
+}
+
+/* Button */
+
+.button,
+.button *{ color:#fff; position:relative; margin:0; padding:0; display:-moz-inline-stack; display:inline-block; text-decoration:none !important; border:0; font-size:12px; font-family:Tahoma, Sans-serif; font-weight:bold; white-space:nowrap; background:url(/img/button.gif) no-repeat; vertical-align:top; overflow:visible;}
+.button { margin-right:4px;}
+.button *{ left:4px; cursor:pointer; _cursor:hand;}
+.button.default, .button.default *{ height:24px; line-height:24px;background-position:left 0;}
+.button.default *{ padding:0 15px 0 10px; background-position:right top;}
+.button.end, .button.end *{ height:24px; line-height:24px;background-position:left -30px;float:right;}
+.button.end *{ padding:0 15px 0 10px; background-position:right -30px;}
+
+.button *:hover,
+.button *:active,
+.button *:focus{ color:#ececec ;font-weight:bold;}
+
+/* ==================== 2014 08 06 ==================== */
+.k-treeview.k-widget {
+    color:#fff !important;
+/*     font-weight:bold; */
+    line-height: 23px ;
+}
+
+.k-treeview .k-icon{
+	background-color: white !important; 
+}
+
+/* ==================== Layout ==================== */
+/* #header{position:relative;background:url(/img/bg_header.gif) repeat-x;height:35px;z-index:10000;} */
+#header{position:fixed;top:0px;width:100%;background:url(/img/bg_header.gif) repeat-x;height:35px;z-index:9000;}
+
+
+#container{position:relative;background:url(/img/in_bg_4.png) no-repeat center center;width:100%;}
+
+
+/* #contents{position:relative;left:95px;width:1125px;padding-top:20px;padding-bottom:20px;} */
+#contents {
+    position: relative;
+    padding-bottom: 20px;
+    padding-top:20px;
+    border: 0;
+    width: 100%;
+    margin-top: 75px;
+    box-sizing: border-box;
+    padding-left: 95px;
+    padding-right: 20px;
+    min-width: 1125px;
+}
+
+#footer{position:fixed;width:100%;height:24px;background-color:#e5e5e5;bottom:0;background:none rgba(205, 205, 205, 0.42)}
+#footer p{text-align:center;padding-top:5px;font-size:11px;color:#999;font-family:Tahoma;padding-left:75px;}
+
+/* ==================== Title ==================== */
+h1  {height:45px;}
+h2  {font-family: "dotum", Arial, sans-serif; font-size:16px; color:#000; font-weight:bold;margin-top:30px;margin-bottom:20px;}
+h3  {font-family: "dotum", Arial, sans-serif; font-size:16px; color:#000; font-weight:bold;margin-top:30px;margin-bottom:20px;background:url(/img/bullet_h3.png) no-repeat;padding-left:14px;letter-spacing:-1px;}
+
+/* ==================== hr ==================== */
+.h15 {display:block;height:15px;}
+.h20 {display:block;height:20px;}
+.h25 {display:block;height:25px;}
+.h30 {display:block;height:30px;}
+
+/* ==================== Header ==================== */
+#header .logo{position:absolute;left:0;top:4px;font-size:12px;font-weight:bold;color:#e7e7e7;width:140px;padding-left:10px;}
+#header div{position:absolute;width:100%;}
+#header .info{position:absolute;right:0;top:10px;margin-right: 20px;}
+#header .info .admin{color:#00c0ff;}
+#header a{color:#e7e7e7;}
+#header .info li{color:#e7e7e7;font-size:11px;float:left;margin-left:20px;}
+
+/* ==================== search ==================== */
+#search {background:url(/img/search_bg_top.jpg) no-repeat left top;width:100%;padding-top:2px;}
+#search .se_bg {background:url(/img/search_bg_3.jpg) no-repeat left bottom;padding-bottom:4px;}
+#search .se_bg table {margin:10px 20px 10px 20px;}
+#search .se_bg table tr th {padding-right:10px;height:28px;font-weight:normal;text-align:left;color:#222;}
+#search .se_bg table tr td {padding-right:15px;}
+#search .se_bg table tr td.line {width:2px;background:url(/img/img_search_line.png) repeat-y;padding-right:10px;text-indent:-9999px;}
+
+/* ==================== grid ==================== */
+#refer {font-size:11px;margin-top:15px;background:url(/img/bullet_star.png) repeat-y 0px 2px;padding-left:15px;line-height:140%;color:#777;}
+#search_above {padding-bottom:5px;font-size:11px;color:#999;}
+
+#grid {width:100% !important;}
+
+
+/* ==================== Tab ==================== */
+
+#tab_bro{position:fixed;top:35px;left:0px;width:100%;height:40px;background-color:#7f8994;z-index: 998;}
+#tab_bro .tab{padding-top:9px;position:relative;left:95px;width:100%;}
+#tab_bro .tab ul li {letter-spacing:-1px;font-weight:bold;height:21px;padding:8px 3px 0 17px;float:left;width:auto;text-align:center;border-top:1px solid #5f676f;border-right:1px solid #5f676f;border-left:1px solid #5f676f;border-bottom:1px solid #bfc5cb;background:#bfc5cb;}
+#tab_bro .tab ul li a{padding-right:10px;}
+#tab_bro .tab ul li:hover {color:#000;}
+
+#tab_bro .tab ul li img {padding-left:20px;}
+
+#tab_bro .tab ul li span {float:right;margin-right:auto;margin-top:2px;}
+#tab_bro .tab ul li.sel{background:#fff;color:#000;font-weight:bold;border:1px solid #fff !important;z-index:1000;}
+#tab_bro .tab ul li.sel span {float:right;padding:0px 0px 0 5px;}
+
+
+/* ==================== gnb ==================== */
+#gnb{position:fixed;left:0px;top:0px;background:url(/img/bg_gnb.gif) repeat-y left top;width:75px;height:100%;z-index: 999;}
+/* #gnb ul{margin-top:35px;} */
+/* #gnb ul li{height:75px;cursor:pointer;text-indent:-10000px;} */
+/* 게시판 */
+#gnb .board {
+	margin-top: 35px;
+    background: url(/img/gnb_perform.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+} /* TODO : background 아이콘 교체 */
+
+#gnb .board:hover {
+	margin-top: 35px;
+    background: url(/img/gnb_perform_up.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+} /* TODO : background 아이콘 교체 */
+
+/* 수수료 */
+#gnb .billing {
+/*	margin-top: 35px; */
+	background: url(/img/gnb_billing.png) no-repeat left top;
+	height: 75px;
+	cursor: pointer;
+	text-indent: -10000px;
+}
+#gnb .billing:hover {
+/*	margin-top: 35px; */
+	background: url(../img/gnb_billing_up.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+}
+
+/* 시스템관리 */
+#gnb .insa {
+	background: url(/img/gnb_admin.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+}
+
+#gnb .insa:hover {
+	background: url(/img/gnb_admin_up.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+}
+
+/* 시스템관리 */
+#gnb .admin {
+	background: url(/img/gnb_admin.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+}
+
+#gnb .admin:hover {
+	background: url(/img/gnb_admin_up.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+}
+
+/* 영업실적관리 */
+#gnb .perform {
+    background: url(/img/gnb_perform.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+}
+
+#gnb .perform:hover {
+    background: url(/img/gnb_perform_up.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+}
+
+/* 계약관리 */
+#gnb .contract {
+    background: url(/img/gnb_perform.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+} /* TODO : background 아이콘 교체 */
+
+#gnb .contract:hover {
+    background: url(/img/gnb_perform_up.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+} /* TODO : background 아이콘 교체 */
+
+/* 게시판 */
+#gnb .customer {
+    background: url(/img/gnb_perform.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+} /* TODO : background 아이콘 교체 */
+
+#gnb .customer:hover {
+    background: url(/img/gnb_perform_up.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+} /* TODO : background 아이콘 교체 */
+
+/* 시스템 */
+#gnb .system {
+    background: url(/img/gnb_perform.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+} /* TODO : background 아이콘 교체 */
+
+#gnb .system:hover {
+    background: url(/img/gnb_perform_up.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+} /* TODO : background 아이콘 교체 */
+
+/* 영업지원 */
+#gnb .support {
+    background: url(/img/gnb_perform.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+} /* TODO : background 아이콘 교체 */
+
+#gnb .support:hover {
+    background: url(/img/gnb_perform_up.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+} /* TODO : background 아이콘 교체 */
+
+#gnb .more {
+	background: url(/img/gnb_more.png) no-repeat left top;
+    height: 75px;
+    cursor: pointer;
+    text-indent: -10000px;
+}
+
+/* ==================== menu ====================*/
+.menu {position:absolute;top:35px;left:75px;height:100%;background:url(/img/gnb_bg_2.png) repeat-y right top;z-index: 1;}
+/* .menu ul{margin-top:20px;min-width:150px;} */
+/* .menu ul li{ */
+/*     background:url(/img/bullet_1.png) no-repeat scroll 12px 4px ;  */
+/*     height:15px !important; */
+/*     color: #fff !important;  */
+/*     font-size: 12px;  */
+/*     padding: 0 25px 10px 20px;  */
+/*     font-weight:bold; */
+/*     word-spacing:-1px; */
+/*     text-indent:0px !important; */
+/* } */
+/* .menu ul li a{color:#fff !important;} */
+/* .menu ul li a:hover{color:#00b4ff !important;}  */
+
+
+/* ==================== logout ==================== */
+
+.logout_bg {/*background-image:url(/img/logout_bg.jpg);background-repeat:repeat-x;background-color:#1d1e20;*/padding:0;margin:0;}
+.logout_1 {margin:0 auto;width:621px;height:267px;background-image:url('images/logoout_img.jpg');padding-top:300px;text-align:center;}
+.logout_2 {margin:0 auto;font-size:11px;color:#ccc;width:600px;}
+.logout_2 p {clear:both;color:#939393;font-family:tahoma;font-size:11px;letter-spacing:0px;text-align:center;}
+
+
+    /* ==================== menu 140526 ====================*/  
+
+/* .menu { */
+/*  position:absolute; */
+/*  top: 35px; */
+/*  left: 75px; */
+/*  height: 100%; */
+/*  background: url(/img/gnb_bg_2.png) repeat-y right top; */
+/* } */
+/* .menu ul{margin-top:20px;} */
+/* .menu ul li { */
+/*  background: url(/img/bullet_1.png) no-repeat scroll 12px 4px; */
+/*  color: #fff; */
+/*  font-size: 12px; */
+/*  padding: 0 25px 10px 20px; */
+/*  font-weight: bold; */
+/*  word-spacing: -1px; */
+/*  height:15px !important; */
+/*  text-indent: 0px !important; */
+/* } */
+
+/* .menu ul li a{color:#fff;} */
+/* .menu ul li a:hover{color:#00b4ff;} */
+
+
+
+
+
+
+/* ######### Drop Down DIVs CSS ######### */
+.ddsubmenustyle,.ddsubmenustyle div {
+    /*topmost and sub DIVs, respectively*/
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    list-style-type: none;
+    background: url(../img/gnb_bg_1.png) repeat-y left top;
+    border: 0;
+    visibility: hidden;
+    z-index: 100;
+}
+
+.ddsubmenustyle ul {
+    position: fixed;
+    height: 100%;
+}
+
+.ddsubmenustyle ul li {
+    border: 5px solid #ff0000;
+    margin-top: 100px;
+    margin-left: 100px;
+}
+
+.ddsubmenustyle li a {
+    display: block;
+    width: 135px; /*width of menu (not including side paddings)*/
+    color: white;
+    text-decoration: none;
+}
+
+.ddsubmenustyle li a:hover {
+    border: 1px solid #ff0000;
+}
+
+/* ######### Marker List Vertical Menu ######### */
+.markermenu {
+    width:; /*width of side bar menu*/
+    clear:;
+    position:;
+    /*Preserve this for "right" arrow images (added by script) to be positioned correctly*/
+}
+
+.markermenu ul {
+    list-style-type:;
+    margin:;
+    padding:;
+    border:;
+}
+
+.markermenu ul li a {
+    display: block;
+    height: 75px;
+}
+
+
+
+/* ######### Customized Drop Down ULs CSS (inherits from ddlevelsmenu-base.css) ######### */
+.blackwhite li a {
+    background: white;
+}
+
+.blackwhite li a:hover {
+    background: black;
+    color: white;
+}
+
+
+#wrap {width:100% ;margin:0px ;padding: 0;}
+
+
+div .k-content{
+    border:0  !important;
+}
+
+/* .k-state-active{ */
+/*  width:0px; */
+/* } */
+
+
+
+
+.tabHeader{
+    background: red;
+    color:white;
+    text-align: left;
+    font-weight: bold;
+    vertical-align: bottom;
+    width: 150px;
+}
+
+.staticNoti {
+	position: absolute;
+	z-index:9999999999;
+	width:300px;
+    left: 500px;
+    background-color:transparent;
+	top: 0;
+	height: 100%;
+	overflow: auto;
+	float: right;
+}

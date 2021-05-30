@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd">
+                           
+    <bean id="environmentVariablesConfiguration" class="org.jasypt.encryption.pbe.config.EnvironmentStringPBEConfig">
+	    <property name="algorithm" value="PBEWithMD5AndDES"/>
+	    <property name="passwordEnvName" value="APP_ENCRYPTION_PASSWORD"/>
+	</bean>
+	    
+	<bean id="configurationEncryptor" class="org.jasypt.encryption.pbe.StandardPBEStringEncryptor">
+	    <property name="config" ref="environmentVariablesConfiguration"/>
+	   <!--  <property name="password" value="rapidex1!"/> -->
+	   <property name="password" value="hanwhalife2020!"/>
+	</bean>
+	    
+	<bean id="gx.propertyConfigurer" class="org.jasypt.spring31.properties.EncryptablePropertyPlaceholderConfigurer">
+	    <constructor-arg ref="configurationEncryptor"/>
+	    <property name="locations">
+	        <list>
+	            <value>classpath:/properties/globals.xml</value>
+	        </list>
+	    </property>
+	</bean>
+
+    <!-- DataSource -->
+    <alias name="dataSource-MySQL" alias="dataSource" />
+        
+	<bean id="dataSource-MySQL" class="org.springframework.jndi.JndiObjectFactoryBean"> 
+		<property name="jndiName"> 
+			<value>java:comp/env/jdbc/DS_DEV_RPDX</value> 
+		</property> 
+	</bean>
+
+
+    
+</beans>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Role">
+	
+	<select id="getRoleList" parameterType="hmap" resultType="rapidex.system.security.model.Role">
+		/* user-mapper.xml getRoleList */
+		SELECT IFNULL(role_id, '') AS "name" 
+		  FROM tb_sy_user_role_map tb1
+		  JOIN tb_sy_login tb2
+		    ON tb1.user_id = tb2.user_id
+		   AND tb2.login_id = #{login_id}
+	</select>
+	
+</mapper>

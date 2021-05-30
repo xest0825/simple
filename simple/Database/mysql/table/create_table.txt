@@ -1,0 +1,1305 @@
+drop table tbsy_action_log;
+CREATE TABLE tbsy_action_log (
+seq bigint primary key auto_increment comment '일련번호',
+    mb_id varchar(20) comment '회사ID', 
+	emp_cd varchar(20) comment '사원코드', 
+	action_type varchar(30) comment '액션유형', 
+	action_url varchar(200) comment '액션 URL',  
+	action_query_string text comment '쿼리스트링', 
+	action_ip varchar(100) comment '액션 IP', 
+	in_dtm datetime default now() comment '입력일시'
+   ) ENGINE=InnoDB Default charset=utf8 comment '액션로그'
+   ;
+   commit;
+  select * from tbsy_action_log;
+   
+-- drop table tbsy_bookmark;
+  create table tbsy_bookmark
+   ( mb_id varchar(20) not null comment '회원사ID', 
+	emp_cd varchar(20) not null comment '사원코드', 
+	resource_id varchar(20) not null comment '메뉴id', 
+	bookmark_name varchar(300) comment '북마크이름', 
+	in_emp_cd varchar(20) comment '입력자사번', 
+	in_dtm datetime comment '입력일시', 
+	up_emp_cd varchar(20) comment '수정자사번', 
+	up_dtm datetime comment '수정일시', 
+	sort_no int comment '정렬순서', 
+	 primary key (mb_id, emp_cd, resource_id)
+   ) engine=innodb default charset=utf8 comment '즐겨찾기'
+   ;
+   
+ -- drop table tbsy_close_month;
+  create table tbsy_close_month 
+   (	mb_id varchar(20) default '' not null comment '마감관리', 
+	com_ym varchar(6) default '' not null comment '마감월', 
+	cl_step_cd varchar(6) default '' not null comment '마감구분코드', 
+	cl_state_cd varchar(6) comment '마감상태코드', 
+	system_close_date varchar(5) comment '마감날짜', 
+	gubun varchar(20) default '' not null comment '시스템구분', 
+	sort_no int comment '정렬순서', 
+	close_state_dtm datetime comment '마감완료일시', 
+	close_state_emp_cd varchar(20) comment '마감완료사번', 
+	in_emp_cd varchar(20) comment '입력자사번', 
+	in_dtm datetime comment '입력일시', 
+	up_emp_cd varchar(20) comment '수정자사번', 
+	up_dtm datetime comment '수정일시', 
+	primary key (mb_id, com_ym, cl_step_cd)
+   ) engine=innodb default charset=utf8 comment '마감관리'
+   ;
+
+CREATE INDEX tbsy_close_month_idx1 ON tbsy_close_month (mb_id, com_ym, cl_state_cd, cl_step_cd);
+create index tbsy_close_month_idx2 on tbsy_close_month (mb_id, com_ym, sort_no, cl_state_cd, cl_step_cd) ;
+create index tbsy_close_month_idx3 on tbsy_close_month (mb_id, com_ym, sort_no, cl_step_cd);
+
+-- drop table tbsy_error_log;
+create table tbsy_error_log 
+   (seq bigint primary key auto_increment comment '일련번호', 
+    mb_id varchar(20) comment '회사코드', 
+	emp_cd varchar(20) comment '사원코드', 
+	action_type varchar(30) comment '행위유형', 
+	error_url varchar(200) comment '에러 발생 URL', 
+	error_query_string text comment '전달된 파라미터 값', 
+	error_status varchar(40) comment '에러 상태 코드', 
+	error_class varchar(400) comment '에러 발생 클래스', 
+	error_msg text comment '에러 메시지', 
+	error_trace varchar(4000) comment '에러 추적 메시지', 
+	error_ip varchar(100) comment '에러 발생 IP', 
+	in_dtm datetime comment '에러 발생 시간'
+   ) engine=innodb default charset=utf8 comment '에러로그'
+  ;
+ commit;
+
+create index tbsy_error_log_idx1 on tbsy_error_log (mb_id, emp_cd);
+
+create table tbsy_file_info 
+   (seq bigint primary key auto_increment comment '일련번호', 
+    mb_id varchar(20) default '' comment '회사코드', 
+	file_no varchar(100) default '' not null comment '파일번호', 
+	attach_gbn varchar(10) comment '첨부구분', 
+	board_no varchar(20) comment '게시판구분 게시판번호', 
+	ref_seq varchar(20) comment '첨부구분 해당테이블의 일련번호', 
+	doc_gbn varchar(30) comment '문서구분', 
+	file_path varchar(300) comment '파일경로(절대경로)', 
+	file_url varchar(300) comment '파일URL(상대경로)', 
+	file_nm varchar(600) comment '원파일명', 
+	file_size int comment '파일크기', 
+	file_mime varchar(100) comment  'MIME타입', 
+	file_format varchar(5) comment '확장자', 
+	memo varchar(300) comment '메모', 
+	in_emp_cd varchar(20) comment  '입력자사번', 
+	in_dtm datetime comment  '입력일시', 
+	up_emp_cd varchar(20) comment  '수정자사번',  
+	up_dtm datetime comment  '수정일시' 
+   ) engine=innodb default charset=utf8 comment '첨부파일정보'
+   ;
+  
+commit;
+
+create index tbsy_file_info_idx1 on tbsy_file_info (mb_id, attach_gbn);
+create index tbsy_file_info_idx2 on tbsy_file_info (mb_id, ref_seq, attach_gbn);
+create index tbsy_file_info_idx3 on tbsy_file_info (mb_id, ref_seq, attach_gbn, file_no);
+create index tbsy_file_info_idx4 on tbsy_file_info (mb_id, ref_seq, board_no, attach_gbn) ;
+ 
+ 
+create table tbsy_login 
+   (	mb_id varchar(20) default '' not null comment '회사코드', 
+	login_id varchar(20) default '' not null comment '로그인 id', 
+	emp_cd varchar(20) default '' not null comment '사원코드', 
+	pwd_intzn_type varchar(1) comment '비밀번호 초기화여부', 
+	acct_lock_type varchar(1) comment '계정잠김여부', 
+	login_autr_type varchar(20) comment '로그인 인증 타입', 
+	user_pwd varchar(430) comment '사용자 비밀번호', 
+	trns_user_pwd varchar(430) comment '임시 비밀번호', 
+	pwd_err_nbtm int comment '비밀번호 오류횟수', 
+	pwd_chg_dt varchar(8) comment '비밀번호 변경일자', 
+	memo varchar(200) comment '메모', 
+	in_emp_cd varchar(20) comment '입력자사번', 
+	in_dtm datetime comment '입력일시', 
+	up_emp_cd varchar(20) comment '수정자사번', 
+	up_dtm datetime comment '수정일시', 
+	easy_pwd varchar(10) comment '간편비밀번호', 
+	device_id varchar(44) comment '장치ID', 
+	constraint xpktbsy_login primary key (mb_id, emp_cd)
+   ) engine=innodb default charset=utf8 comment '로그인정보'
+  ;
+
+ commit;
+create index tbsy_login_idx1 on tbsy_login (mb_id, emp_cd, login_id);
+  create index tbsy_login_idx2 on tbsy_login (emp_cd, mb_id);
+  create index tbsy_login_idx3 on tbsy_login (mb_id, login_id);
+ 
+ 
+ create table tbsy_login_auth_num 
+   (	mb_id varchar(20) default '' not null comment '회사코드', 
+	emp_cd varchar(20) default '' not null comment '사원코드', 
+	auth_num varchar(40) default '' not null comment 'sms 인증번호', 
+	in_dtm datetime comment '전송일자'
+   ) engine=innodb default charset=utf8 comment '로그인 sms인증번호관리'
+   ;
+
+create index tbsy_login_auth_num_idx1 on tbsy_login_auth_num (mb_id, emp_cd);
+
+drop table tbsy_login_hist;
+create table tbsy_login_hist 
+   (seq bigint primary key auto_increment comment '일련번호', 
+    mb_id varchar(20) default '' not null comment  '회사코드', 
+	emp_cd varchar(20) default '' not null comment '사원코드', 
+	login_ip varchar(40) default '' not null comment '로그인 ip', 
+	login_dtm datetime comment '로그인일시', 
+	memo varchar(200) comment '메모'
+   ) engine=innodb default charset=utf8 comment '로그인 이력관리';
+
+create index tbsy_login_hist_idx1 on tbsy_login_hist (mb_id, emp_cd);
+commit;
+
+drop table tbsy_member;
+create table tbsy_member 
+   (  
+  mb_id varchar(20) default '' not null comment '회사코드', 
+  mb_nm varchar(100) comment '회사명', 
+  mb_login_id varchar(20) default '' comment '회사 로그인 id', 
+  copy_mb_id varchar(20) comment '복사한 회사 로그인 id', 
+  zipcd varchar(7) comment '우편번호', 
+  addr1 varchar(500) comment '주소1', 
+  addr2 varchar(800) comment '주소2', 
+  mb_type varchar(4) comment '고객사유형', 
+  use_yn varchar(1) default 'y' comment '사용여부', 
+  cont_frymd varchar(10) comment '계약시작일', 
+  cont_toymd varchar(10) comment '계약종료일', 
+  corp_reg_num varchar(50) comment '사업등록번호', 
+  tax_reg_num varchar(500) comment '납세번호', 
+  corp_email varchar(100) comment '회사이메일', 
+  represent_nm varchar(30) comment '대표명', 
+  telno varchar(500) comment '전화번호', 
+  faxno varchar(500) comment '팩스번호', 
+  domain_url varchar(100) comment '도메인 url', 
+  domain_mng varchar(100) comment '도메인 관리사이트', 
+  domain_id varchar(100) comment '도메인 id', 
+  domain_pw varchar(100) comment '도메인 비번', 
+  ci_url varchar(200) comment 'ci url', 
+  logo_url varchar(200) comment '로고 url', 
+  manager_nm varchar(30) comment '관리자명', 
+  mtelno varchar(500) comment '관리자전화번호', 
+  pkg_name varchar(20) comment '패키지명', 
+  copy_right varchar(2000) comment '카피라이트', 
+  certlogo_url varchar(200) comment '증명서 사용 로고 url', 
+  seal_url varchar(200) comment '직인 url', 
+  certificate_mb_nm varchar(100) comment '증명서 출력용 회사명', 
+  sort_no int comment '정렬순서', 
+  memo varchar(400) comment '메모', 
+  bigo varchar(300) comment 'bigo', 
+  secret_key varchar(32) comment '암호화에 사용되는 키', 
+  iv varchar(16) comment '대칭키', 
+  sso_use_yn varchar(10) default 'n' comment 'sso 사용여부', 
+  erp_sync_url varchar(100) comment 'erp url', 
+  inscom_url varchar(100) comment '수수료 url', 
+  session_time int comment '세션시간(분)', 
+  mb_api_id varchar(20) comment '회사 api 로그인 id', 
+  mb_api_pwd varchar(430) comment '회사 api 로그인 비밀번호', 
+  in_emp_cd varchar(20) comment '입력자사번', 
+  in_dtm datetime comment '입력일시', 
+  up_emp_cd varchar(20) comment '수정자사번', 
+  up_dtm datetime comment '수정일시', 
+  seq bigint comment '일련번호', 
+   constraint xpktbsy_member primary key (mb_id)
+
+   ) engine=innodb default charset=utf8 comment '고객사';
+   ;
+
+create index tbsy_member_idx1 on tbsy_member (mb_login_id);
+create index tbsy_member_idx2 on tbsy_member (mb_login_id, sort_no);
+
+commit;
+
+drop table tbsy_resources ;
+create table tbsy_resources 
+   (resource_id varchar(20) not null comment '메뉴ID', 
+   resource_name varchar(100) comment '메뉴명',  
+	resource_url varchar(150) default '' not null comment '메뉴 URL', 
+	resource_pattern varchar(100) default '' not null comment '메뉴 패턴', 
+	resource_type varchar(10) comment '메뉴 유형', 
+	prnt_resource_id varchar(20) comment '부모 메뉴 ID', 
+	cls_resource_id varchar(20) comment '마감 단계 메뉴 ID', 
+	menu_icon varchar(200) comment '메뉴아이콘', 
+	menu_gbn_cd varchar(4) comment '메뉴 구분 코드', 
+	system_gubun varchar(10) comment '시스템 구분', 
+	sort_no int comment '정렬순서', 
+	use_yn varchar(1) comment '사용여부',
+	in_emp_cd varchar(20) comment '입력자사번', 
+	in_dtm datetime comment '입력일시', 
+	up_emp_cd varchar(20) comment '수정자사번', 
+	up_dtm datetime comment '수정일시', 
+	mb_id varchar(20) not null comment '회사ID', 
+	bookmark_use_yn varchar(3) comment '즐겨찾기여부', 
+	 constraint xpktbsy_resources primary key (mb_id, resource_id) 
+   ) engine=innodb default charset=utf8 comment '메뉴';
+   ;
+
+create index tbsy_resources_idx1 on tbsy_resources (mb_id, sort_no, resource_id) ;
+commit;
+
+commit;
+create table tbsy_resources_role 
+   (
+   	mb_id varchar(20) not null comment '고객사ID', 
+	role_id varchar(50) not null comment '권한ID', 
+	resource_id varchar(20) not null comment '메뉴ID', 
+    system_gubun varchar(10) comment '시스템구분', 
+	use_yn varchar(2) comment '사용여부' , 
+	view_auth varchar(20) comment '메뉴별 조직조회권한', 
+	se_autr_type varchar(2) default 'n' comment '조회권한', 
+	in_autr_type varchar(2) default 'n' comment '입력권한', 
+	up_autr_type varchar(2) default 'n' comment '수정권한', 
+	de_autr_type varchar(2) default 'n' comment '삭제권한', 
+	lo_autr_type varchar(2) default 'n' comment '업로드권한', 
+	do_autr_type varchar(2) default 'n' comment '다운로드권한', 
+	in_emp_cd varchar(20) comment '입력자사번', 
+	in_dtm datetime comment '입력일시', 
+	up_emp_cd varchar(20) comment '수정자사번', 
+	up_dtm datetime comment '수정일시', 
+
+	 constraint xpktbsy_resources_role primary key (mb_id, role_id, resource_id)
+   ) engine=innodb default charset=utf8 comment '메뉴-권한 매핑/권한설정';
+  ;
+ 
+ create table tbsy_user_role_map 
+           ( 
+             seq bigint primary key auto_increment comment '일련번호'
+           , mb_id VARCHAR(20) comment '회사코드'
+           , emp_cd VARCHAR(20) comment '사원코드'
+           , role_id VARCHAR(50) comment '권한ID'
+           , scd VARCHAR(10) comment '겸직조직'
+           , jikchk VARCHAR(10) comment  '겸직직책'
+           , jikgub VARCHAR(10) comment  '겸직직급'
+           , concurrent_idx int comment '겸직구분 idx(1 : 주, 2~ : 부)'
+           , sort_no    int comment '정렬순서' 
+           , memo VARCHAR(200) comment '메모' 
+			, in_emp_cd varchar(20) comment '입력자사번'
+			, in_dtm datetime comment '입력일시'
+			, up_emp_cd varchar(20) comment '수정자사번'
+			, up_dtm datetime comment '수정일시'
+) engine=innodb default charset=utf8 comment '사용자-권한매핑'
+;
+
+commit;
+create index tbsy_user_role_map_idx1 on tbsy_user_role_map (emp_cd, role_id, scd, mb_id);
+
+select * from tbsy_user_role_map ;
+
+
+create table tbcm_common_code_group
+		  	 ( mb_id varchar(20) comment '회사코드' /* 회사코드 varchar(20)*/
+			 , grp_cmm_cd varchar(100) comment '그룹공통코드' /* 그룹공통코드 varchar(100)*/
+			 , grp_cmm_cd_nm varchar(150) comment '그룹공통코드명'    /* 그룹공통코드명 varchar(150)*/
+			 , grp_cmm_cd_desc varchar(300) comment '그룹공통코드명'  /*  varchar(300)*/
+			 , system_gubun varchar(10) comment '시스템구분'    /* 시스템 구분 */
+			 , sort_no int comment '정렬순서'          /* 정렬순서 */
+			 , in_emp_cd varchar(20) comment '입력자사번'
+			 , in_dtm datetime comment '입력일시'
+			 , constraint tbcm_common_code_group_pk primary key (grp_cmm_cd, mb_id)
+) engine=innodb default charset=utf8 comment '그룹공통코드'
+;
+
+alter table tbcm_common_code_group add up_emp_cd varchar(20) comment '수정자사번';
+alter table tbcm_common_code_group add up_dtm datetime default now() comment '수정일시';
+commit;
+
+-- drop table tbcm_common_code;
+create table tbcm_common_code
+ ( mb_id varchar(20) comment '회사코드' 
+ , grp_cmm_cd varchar(100) comment '그룹공통코드' 
+ , cd_vl varchar(100)    comment    '코드값' 
+ , cd_vl_nm varchar(150) comment '코드값명' 
+ , use_yn varchar(2)    comment   '사용여부' 
+ , sort_no bigint(20)   comment   '정렬순서' 
+ , in_emp_cd varchar(20) comment   '입력자' 
+ , in_dtm datetime comment  '입력일시' 
+ , constraint tbcm_common_code_pk primary key (grp_cmm_cd, cd_vl, mb_id)
+ , constraint tbcm_common_code_fk foreign key (grp_cmm_cd, mb_id) references tbcm_common_code_group(grp_cmm_cd, mb_id)
+ ) engine=innodb default charset=utf8 comment '공통코드'
+;
+commit;
+
+alter table tbcm_common_code add up_emp_cd varchar(20) comment '수정자사번';
+alter table tbcm_common_code add up_dtm datetime default now() comment '수정일시';
+
+
+select NVL() from dual;
+
+create table tbsy_message (
+message_seq bigint primary key auto_increment
+, send_dtm DATETIME default NOW() comment '발송시간'
+, message_type VARCHAR(10) comment '메시지유형(SMS/EMAIL)'
+	 , receiver VARCHAR(50)  comment		  '수신자번호(이메일)'  
+	 , sender 	VARCHAR(50)  comment 		  '발신자번호(이메일)'
+	 , title  	VARCHAR(100) comment 		  '제목'
+	 , content 	TEXT  			comment	  '내용' 
+	 , send_result VARCHAR(10)  comment	  '발송결과' 
+	 , ref_type 	VARCHAR(20) comment		  '참조구분'
+	 , ref_seq 		VARCHAR(22) comment 		  '참조일련번호(참조일련번호)'
+	 , ref_receiver_type VARCHAR(20)  comment		  '참조수신자구분(고객|관리자)'
+	 , ref_receiver_seq  VARCHAR(22)  	comment	  '참조수신자일련번호'
+) engine=innodb default charset=utf8 comment '메시지 내용 이력'
+;
+
+create index tbsy_message_idx1 on tbsy_message (send_dtm);
+commit;
+
+select sysdate();
+select now();
+
+create table tbin_empmst 
+ ( mb_id varchar(20) comment '회사ID'           
+ , emp_cd varchar(20) comment '사원코드'           
+ , emp_nm  varchar(50) comment '사원명'          
+ , emp_nme varchar(50) comment '영문사원명'          
+ , scd varchar(10) comment '조직코드'              
+ , perno varchar(100) comment '주민번호'
+ , jikgub varchar(30) comment '직급'
+ , jikchk varchar(30) comment '직책'
+ , telno varchar(20) comment '전화번호'            
+ , hpno varchar(20) comment '휴대폰번호'             
+ , extno varchar(20) comment '외선번호'           
+ , email varchar(100) comment '이메일'            
+ , zipcd varchar(6) comment '우편번호'            
+ , addr1 varchar(100) comment '주소1'            
+ , addr2 varchar(100) comment '주소2'            
+ , empsta varchar(10) comment '재직상태'           
+ , insco_emp_cd_gbn varchar(10) comment '보험사코드구분'
+ , join_gbn varchar(10) comment '가입구분'         
+ , pay_gbn  varchar(20) comment '지급구분'         
+ , rcrt_type  varchar(20) comment '모집유형'       
+ , re_emp_cd varchar(20) comment '모집사원'
+ , lreg_ymd  varchar(10) comment '생보등록일'        
+ , nreg_ymd  varchar(10) comment '손보등록일'
+ , vreg_ymd  varchar(10) comment '변액보험등록일'
+ , vreg_no	varchar(30)		comment '변액등록변호' 
+ , areg_no varchar(30) comment '등록번호'
+ , career_gbn varchar(10) comment '경력구분'
+ , ent_ymd    varchar(10)       comment '입사일'
+ , gent_ymd   varchar(10)comment '위촉일'
+ , end_ymd    varchar(10)comment '해촉일'
+ , out_ymd   varchar(10)comment '퇴사일'
+ , bank       varchar(20)comment '은행코드'
+ , bk_id       varchar(30)comment '계좌번호'
+ , owner             varchar(20) comment '계좌주'
+ , owner_relation    varchar(10) comment '계좌주와의 관계'
+ , birth			 varchar(10) comment '생일'
+ , luna_solr_dcd     varchar(10) comment '양력음력구분'
+ , memo              varchar(200) comment '메모'
+ , file_name         varchar(200) comment '파일이름'
+ , in_emp_cd         varchar(20) comment '입력자'
+ , in_dtm            datetime comment '입력일시'
+ , up_emp_cd     varchar(20)     comment '수정일시'
+ , up_dtm    datetime comment '수정자'
+ , seq        int comment '일련번호'
+ , constraint tbin_empmst_pk primary key (emp_cd, mb_id)
+ ) engine=innodb default charset=utf8 comment '메시지 내용 이력'
+ ;
+commit;
+
+create index tbin_empmst_idx1 on tbin_empmst (emp_cd, scd, mb_id);
+
+create table tbin_scd /* [ERP] 조직 */
+ ( mb_id  varchar(20) comment '회사코드'         
+ , scd    varchar(20) comment '조직코드'           
+ , snm               varchar(30) comment '조직명칭'
+ , pscd              varchar(20) comment '상위조직코드'
+ , org_unit_gbn      varchar(10) comment '조직단위'
+ , org_strt_ymd      varchar(10) comment '시작일'
+ , org_end_ymd       varchar(10) comment '폐쇄일'
+ , scd_head          varchar(20) comment '조직장'
+ , telno             varchar(20) comment '전화번호'
+ , faxno             varchar(20) comment '팩스번호'
+ , zipcd             varchar(10) comment '우편번호'
+ , addr1             varchar(100) comment '주소1'
+ , addr2             varchar(100) comment '주소2'
+ , org_mng_gbn       varchar(2) comment '관리조직구분'
+ , association_yn    varchar(1) comment '협력사여부'
+ , use_yn            varchar(1) comment '사용여부'
+ , sort_no           int comment '정렬순서'
+ , memo              varchar(100) comment '메모'
+ , in_emp_cd         varchar(20) comment '입력자사번'
+ , in_dtm            datetime comment '입력일시'
+ , up_emp_cd         varchar(20) comment '수정자사번'
+ , up_dtm            datetime comment '수정일시'
+ , constraint tbin_scd_pk primary key (scd, mb_id)
+ ) engine=innodb default charset=utf8 comment '조직'
+ ;
+
+commit;
+
+
+create table tbsy_token_hist /* API CONNECTOR 토큰 관리 */
+ ( seq bigint primary key auto_increment 
+ , mb_id varchar(20) comment '회사id'
+ , emp_cd VARCHAR(20) comment '사번'
+ , login_id varchar(20) comment '로그인id'
+ , project_type varchar(20) comment '프로젝트 타입'
+ , token_type varchar(20) comment '토큰 타입'
+ , token varchar(256) comment 'API CONNECTOR 토큰'
+ , token_role varchar(8) comment 'API CONNECTOR 토큰 권한'
+ , token_time VARCHAR(8) comment 'API CONNECTOR 토큰 제한 시간' 
+ , token_validity_dt datetime comment 'API CONNECTOR 토큰유효일자'
+ , in_dtm datetime comment '입력일시'
+ , up_dtm datetime comment '수정일시'
+ ) engine=innodb default charset=utf8 comment 'API 토큰관리'
+ ;
+
+create index tbsy_token_hist_idx on tbsy_token_hist (login_id, emp_cd, project_type, token_type, mb_id);
+create index tbsy_token_hist_idx2 on tbsy_token_hist (token_validity_dt);
+commit;
+
+select * from tbsy_login;
+insert into tbsy_login (mb_id, login_id, emp_cd, user_pwd, trns_user_pwd)
+values ('C0', 'system', 'system', 
+'238dfd5ea8484f1fe58a015871aba2742a1cc4c7a3352eb7063e7e998d915615d579878f4310e794',
+'238dfd5ea8484f1fe58a015871aba2742a1cc4c7a3352eb7063e7e998d915615d579878f4310e794');
+
+select * from tbsy_login;
+update tbsy_login set in_dtm = now(), up_dtm = now();
+
+select * from tbin_empmst;
+insert into tbin_empmst (mb_id, emp_cd, emp_nm, scd)
+values ('C00', 'system', '시스템관리자', 'O00');
+update tbin_empmst set in_emp_cd = 'system', up_emp_cd = 'system', in_dtm = now(), up_dtm = now();
+
+
+select * from tbsy_user_role_map turm ;
+insert into tbsy_user_role_map (
+mb_id, emp_cd, role_id, scd, concurrent_idx, sort_no, in_emp_cd, in_dtm , up_emp_cd, up_dtm
+) values (
+'C00', 'system', 'ROLE_0', 'O00', 1, 1, 'system', now(), 'system', now()
+)
+select * from tbsy_user_role_map trr ;
+commit;
+
+select * from tbsy_member;
+insert into tbsy_member (
+mb_id, mb_nm
+) values ('C00', '인슈플래닛');
+update tbsy_member set in_emp_cd = 'system' , in_dtm = now(), up_emp_cd = 'system', up_dtm = now();
+;
+      
+     insert into tbin_scd (
+     mb_id, scd, snm, pscd, use_yn, sort_no, in_emp_cd, in_dtm, up_emp_cd, up_dtm
+     ) values (
+     'C00', 'O00', '인슈플래닛', null, 'Y', 1, 'system', now(),  'system', now()
+     );
+     
+    commit;
+  
+ select * from tbsy_roles_hierarchy;
+ 
+create table tbsy_roles_hierarchy (
+  mb_id varchar(20) comment '회사ID'
+, prnt_role_id varchar(50) comment '부모 롤 ID'
+, chld_role_id varchar(50) comment '자식 롤 ID'
+ , in_emp_cd         varchar(20) comment '입력자사번'
+ , in_dtm            datetime comment '입력일시'
+ , up_emp_cd         varchar(20) comment '수정자사번'
+ , up_dtm            datetime comment '수정일시'
+) engine=innodb default charset=utf8 comment '롤 계층'
+;
+
+		WITH recursive hierarchy_cte
+		    AS (SELECT 1 AS level
+                     , CONCAT(CAST(tb2.chld_role_id AS CHAR(509))) AS ordersb
+		             , CONCAT(' > ', CAST(tb2.chld_role_id AS CHAR (509))) AS role_path
+					 , tb2.mb_id           /* 회사코드   VARCHAR(20) */
+					 , tb2.prnt_role_id    /* 부모롤ID   VARCHAR(50) */
+					 , tb2.chld_role_id    /* 자식롤ID   VARCHAR(50) */
+					 , tb2.in_emp_cd       /* 입력자사번 VARCHAR(20) */
+					 , tb2.in_dtm          /* 입력일시   DATETIME    */
+					 , tb2.up_emp_cd       /* 수정자사번 VARCHAR(20) */
+					 , tb2.up_dtm          /* 수정일시   DATETIME    */
+		          FROM (SELECT tb1.* FROM tbsy_roles_hierarchy tb1
+		                 WHERE mb_id = 'C00'
+		                   AND chld_role_id = 'ROLE_0') tb2
+		     UNION ALL
+		        SELECT level+1 AS level
+                   	 , CONCAT(hierarchy_cte.ordersb,tb4.chld_role_id) AS ordersb
+		             , CONCAT(role_path,'>',tb4.chld_role_id) as role_path
+					 , tb4.mb_id           /* 회사코드   VARCHAR(20) */
+					 , tb4.prnt_role_id    /* 부모롤ID   VARCHAR(50) */
+					 , tb4.chld_role_id    /* 자식롤ID   VARCHAR(50) */
+					 , tb4.in_emp_cd       /* 입력자사번 VARCHAR(20) */
+					 , tb4.in_dtm          /* 입력일시   DATETIME    */
+					 , tb4.up_emp_cd       /* 수정자사번 VARCHAR(20) */
+					 , tb4.up_dtm          /* 수정일시   DATETIME    */
+		          FROM (SELECT * FROM tbsy_roles_hierarchy
+		                 WHERE mb_id = 'C00') tb4
+		    INNER JOIN hierarchy_cte
+          		    ON tb4.chld_role_id = hierarchy_cte.prnt_role_id
+          )
+	 
+SELECT chld_role_id as name
+  FROM hierarchy_cte 
+  ;
+  
+ select * from tbsy_roles_hierarchy ;
+ insert into tbsy_roles_hierarchy (
+ mb_id, prnt_role_id, chld_role_id, in_emp_cd, in_dtm, up_emp_cd, up_dtm
+ )
+ values ('C00', 'ROLE_1', 'ROLE_0', 'system', now(), 'system', now())
+ , ('C00', 'ROLE_2', 'ROLE_1', 'system', now(), 'system', now())
+ , ('C00', 'ROLE_3', 'ROLE_2', 'system', now(), 'system', now())
+  , ('C00', 'ROLE_4', 'ROLE_3', 'system', now(), 'system', now())
+   , ('C00', 'ROLE_5', 'ROLE_4', 'system', now(), 'system', now())
+   , ('C00', 'ROLE_6', 'ROLE_5', 'system', now(), 'system', now())
+   , ('C00', 'ROLE_7', 'ROLE_6', 'system', now(), 'system', now())
+   , ('C00', 'ROLE_8', 'ROLE_7', 'system', now(), 'system', now())
+   , ('C00', 'ROLE_9', 'ROLE_8', 'system', now(), 'system', now())
+   , ('C00', 'ROLE_10', 'ROLE_9', 'system', now(), 'system', now())
+   , ('C00', 'ROLE_99', 'ROLE_10', 'system', now(), 'system', now());
+   
+  commit;
+  
+ select * from tbsy_resources;
+ 
+
+  WITH recursive menu_cte
+    AS (
+		  SELECT 1 AS level
+               , CONCAT(tb2.sort_no,tb2.resource_name) AS ordersb
+               , concat('>',tb2.resource_name) as menu_path
+           , tb2.mb_id               /* 회사코드           VARCHAR(20)  */
+           , tb2.resource_id         /* 리소스ID           VARCHAR(20)  */
+           , tb2.resource_name       /* 리소스명           VARCHAR(50)  */
+           , tb2.resource_url        /* 리소스URL          VARCHAR(100) */
+           , tb2.resource_pattern    /* 리소스패턴         VARCHAR(100) */
+           , tb2.resource_type       /* 리소스타입         VARCHAR(10)  */
+           , tb2.prnt_resource_id    /* 부모리소스ID       VARCHAR(20)  */
+           , tb2.cls_resource_id     /* 마감 리소스 아이디 VARCHAR(20)  */
+           , tb2.menu_icon           /* 메뉴 아이콘        VARCHAR(200) */
+           , tb2.menu_gbn_cd         /* 메뉴 구분코드      VARCHAR(4)   */
+           , tb2.system_gubun        /* 시스템구분         VARCHAR(10)  */
+           , tb2.sort_no             /* 정렬순서           INT          */
+           , tb2.use_yn				 /* 사용여부 		   VARCHAR(1)   */
+           , tb2.in_emp_cd           /* 입력자사번         VARCHAR(20)  */
+           , tb2.in_dtm              /* 입력일시           DATETIME     */
+           , tb2.up_emp_cd           /* 수정자사번         VARCHAR(20)  */
+           , tb2.up_dtm              /* 수정일시           DATETIME     */
+        FROM (SELECT tb1.* FROM tbsy_resources tb1
+               WHERE mb_id = 'C00'
+                 AND prnt_resource_id = 'CM_100') tb2
+   UNION ALL
+      SELECT level+1 AS level
+       	   , CONCAT(menu_cte.ordersb,tb3.sort_no,tb3.resource_name) AS ordersb
+           , concat(menu_path,'>',tb3.resource_name) as menu_path
+           , tb3.mb_id               /* 회사코드           VARCHAR(20)  */
+           , tb3.resource_id         /* 리소스ID           VARCHAR(20)  */
+           , tb3.resource_name       /* 리소스명           VARCHAR(50)  */
+           , tb3.resource_url        /* 리소스URL          VARCHAR(100) */
+           , tb3.resource_pattern    /* 리소스패턴         VARCHAR(100) */
+           , tb3.resource_type       /* 리소스타입         VARCHAR(10)  */
+           , tb3.prnt_resource_id    /* 부모리소스ID       VARCHAR(20)  */
+           , tb3.cls_resource_id     /* 마감 리소스 아이디 VARCHAR(20)  */
+           , tb3.menu_icon           /* 메뉴 아이콘        VARCHAR(200) */
+           , tb3.menu_gbn_cd         /* 메뉴 구분코드      VARCHAR(4)   */
+           , tb3.system_gubun        /* 시스템구분         VARCHAR(10)  */
+           , tb3.sort_no             /* 정렬순서           INT          */
+           , tb3.use_yn				 /* 사용여부 		   VARCHAR(1)   */
+           , tb3.in_emp_cd           /* 입력자사번         VARCHAR(20)  */
+           , tb3.in_dtm              /* 입력일시           DATETIME     */
+           , tb3.up_emp_cd           /* 수정자사번         VARCHAR(20)  */
+           , tb3.up_dtm              /* 수정일시           DATETIME     */
+        FROM (SELECT * FROM tbsy_resources
+               WHERE mb_id = 'C00') tb3
+    
+  INNER JOIN menu_cte
+		  ON tb3.prnt_resource_id = menu_cte.resource_id
+   )
+      SELECT tb7.*
+        FROM (SELECT DISTINCT
+                     level AS lv
+                   , CASE WHEN ifnull(tb6.CNT,0)=0 THEN 1 ELSE 0 END AS isleaf
+                   , resource_id         /* 리소스ID           VARCHAR(20)  */
+                   , resource_name       /* 리소스명           VARCHAR(50)  */
+                   , resource_url        /* 리소스URL          VARCHAR(100) */
+                   , resource_pattern    /* 리소스패턴         VARCHAR(100) */
+                   , resource_type       /* 리소스타입         VARCHAR(10)  */
+                   , tb5.prnt_resource_id /* 부모리소스ID      VARCHAR(20)  */
+                   , menu_icon           /* 메뉴 아이콘        VARCHAR(200) */
+                   , use_yn              /* 사용여부           VARCHAR(1)   */
+                   , sort_no             /* 정렬순서           INT          */
+                   , in_emp_cd           /* 입력자사번         VARCHAR(20)  */
+                   , in_dtm              /* 입력일시           DATETIME     */
+                   , up_emp_cd           /* 수정자사번         VARCHAR(20)  */
+                   , up_dtm              /* 수정일시           DATETIME     */
+                   , SUBSTRING(menu_path,2) AS menu_path
+                   , CASE WHEN resource_url = '/index.go' THEN 'Y'
+                          ELSE 'N'
+                      END AS current_menu
+                FROM menu_cte tb5
+     LEFT OUTER JOIN (SELECT COUNT(*) AS CNT
+                           , prnt_resource_id FROM menu_cte
+					GROUP BY prnt_resource_id) tb6
+                  ON tb5.resource_id = tb6.prnt_resource_id
+     ) tb7
+    order by tb7.lv
+           , tb7.sort_no
+           , tb7.resource_id 
+           ;
+     
+drop table tbma_template_mst;
+create table tbma_template_mst
+ ( 
+   mb_id  varchar(20) comment '회사코드'           /* 회사코드  */
+ , role_id varchar(20) comment '권한코드'             /* 권한코드  */
+ , main_board_type varchar(20) comment '메인보드유형'   /* 메인 보드 유형  */
+ , template_code varchar(20) comment '템플릿코드'     /* 템플릿 코드  */
+ , sort_no int comment '정렬순서'            /* 정렬번호  */
+ , in_emp_cd varchar(20) comment '입력자사번'  /* 입력자사번  */
+ , in_dtm datetime comment '입력일시'            /* 입력일시  */
+ , constraint tbma_template_mst_pk primary key (role_id, main_board_type, template_code, mb_id)
+ ) engine=innodb default charset=utf8 comment '메인화면 템플릿'
+ ;
+
+commit;
+
+create table tbma_imagelink_type_mst
+ ( seq bigint primary key auto_increment comment '일련번호'
+ , mb_id varchar(20) comment '회사코드'
+ , title varchar(100) comment '제목'
+ , image_link_type varchar(50) comment '이미지링크 유형'
+ , in_emp_cd varchar(20) comment '입력자사번'
+ , in_dtm datetime default now() comment '입력일시'
+ ) engine=innodb default charset=utf8 comment '메인화면 이미지링크 정의'
+ ;
+
+
+create table tbma_imagelink_type_images
+ ( 
+   mb_id varchar(20) comment '회사ID'
+ , ref_seq varchar(22) comment '참조일련번호'
+ , file_no varchar(256) comment '파일ID'
+ , link_gbn varchar(20) comment '링크 구분'
+ , link_url varchar(200) comment '링크 URL'
+ , sort_no int comment '정렬순서'
+ , in_emp_cd varchar(20) comment '입력자사번'
+ , in_dtm datetime default now() comment '입력일시'
+ ) engine=innodb default charset=utf8 comment '이미지링크 업로드 이미지'
+ ;
+
+commit;
+
+select * from tbsy_error_log;
+
+select * from tbbd_auth_set;
+create table tbbd_auth_set 
+   (mb_id varchar(20) not null comment '회사코드', 
+	role_id varchar(50) default '' not null comment '권한ID', 
+    board_auth_grp_cd varchar(5) default '' not null comment '게시판권한코드', 
+	in_emp_cd varchar(20) comment '입력자사번', 
+	in_dtm datetime comment '입력일시',  
+	up_emp_cd varchar(20) comment '수정자사번', 
+	up_dtm datetime comment '수정일시', 
+	board_no int not null comment '게시판번호', 
+	 constraint tbbd_auth_set_pk primary key (mb_id, role_id, board_auth_grp_cd, board_no)
+   ) engine=innodb default charset=utf8 comment '게시판 권한'
+  ;
+
+create index tbbd_auth_set_idx1 on tbbd_auth_set (mb_id, role_id, board_no) ;
+
+create table tbbd_board 
+   (board_no bigint primary key auto_increment comment '게시판 번호', 
+	board_nm varchar(150) comment '게시판명', 
+	board_discription varchar(300) comment '게시판 설명', 
+	parent_board_no int comment '부모게시판번호', 
+	folder_type varchar(50) comment '게시판디렉토리유형', 
+	use_yn varchar(1) default 'Y' not null comment '사용여부', 
+	sort_no int comment '정렬순서', 
+	memo varchar(100) comment '메모', 
+	in_emp_cd varchar(20) comment '입력자사번', 
+	in_dtm datetime comment '입력일시', 
+	up_emp_cd varchar(20) comment '수정자사번', 
+	up_dtm datetime comment '수정일시', 
+	 mb_id varchar(20) default '' not null comment '회사코드'
+   ) engine=innodb default charset=utf8 comment '게시판'
+;
+
+commit;
+
+create index tbbd_board_idx1 on tbbd_board (mb_id, sort_no, use_yn, board_no) ;
+  create index tbbd_board_idx2 on tbbd_board (mb_id, board_no, parent_board_no, sort_no, use_yn) ;
+  create index tbbd_board_idx3 on tbbd_board (mb_id, board_no, parent_board_no, sort_no, use_yn, folder_type) ; 
+  create unique index xpktbbd_board on tbbd_board (mb_id, board_no) ;
+
+
+ 
+ create table tbbd_board_config 
+   (seq bigint primary key auto_increment comment '일련번호',
+   mb_id varchar(20) default '' comment '회사ID', 
+	board_no varchar(22) default '0' comment '게시판번호', 
+	board_config_cd varchar(20) comment '설정코드', 
+	board_config_val varchar(256) comment '설정값', 
+	use_yn varchar(1) comment '사용여부', 
+	sort_no int comment '정렬순서', 
+	memo varchar(255) comment '메모', 
+	in_emp_cd varchar(20) comment '입력자사번', 
+	in_dtm datetime comment '입력일시', 
+	up_emp_cd varchar(20)  comment '수정자사번', 
+	up_dtm datetime  comment '수정일시'
+   ) engine=innodb default charset=utf8 comment '게시판 설정'
+  ;
+ 
+  create index tbbd_board_config_idx1 on tbbd_board_config (mb_id, board_no, sort_no, use_yn, board_config_cd) ;
+ 
+create table tbbd_comment 
+   (comment_no bigint primary key auto_increment comment '댓글번호', 
+    board_no varchar(22) default '0' not null comment '게시판번호',  
+    item_no  varchar(22) default '0' not null comment '게시글번호', 
+	content varchar(4000) comment '내용', 
+	in_emp_cd varchar(20) comment '입력자사번', 
+	in_dtm datetime comment '입력일시', 
+	up_emp_cd varchar(20) comment '수정자 사번', 
+	up_dtm datetime comment '수정일시', 
+	mb_id varchar(20) default '' not null comment '회사 ID'
+   ) engine=innodb default charset=utf8 comment '댓글'
+  ;
+
+create unique index tbbd_comment_idx1 on tbbd_comment (comment_no, board_no, item_no, mb_id);
+commit;
+
+create table tbbd_item 
+   (item_no bigint primary key auto_increment comment '게시글번호', 
+    mb_id varchar(20) default '' not null comment '회사ID', 
+	board_no varchar(22) default '0' not null comment '게시판번호', 
+	parent_item_no varchar(22)comment '부모게시글벊', 
+	category_type varchar(256)comment '카테고리 구분', 
+	title varchar(300) comment '제목', 
+	content text comment '내용', 
+	hgrk_fix_type varchar(50) comment '목록 상위 고정여부', 
+	popup_type varchar(50) comment '팝업여부', 
+	highlight_type varchar(50) comment '강조여부', 
+	announce_type varchar(50) comment '공지여부', 
+	announce_days float comment '공지일수', 
+	main_type varchar(50) comment '메인공지여부', 
+	main_days varchar(22) comment '메인공지일수', 
+	open_type varchar(50) comment '오픈여부', 
+	sidelink varchar(100) comment '사이드링크', 
+	memo varchar(100) comment '메모', 
+	in_emp_cd varchar(20) comment '입력사번', 
+	in_dtm datetime comment '입력일시', 
+	up_emp_cd varchar(20) comment '수정자사번', 
+	up_dtm datetime comment '수정일시'
+   ) engine=innodb default charset=utf8 comment '게시글'
+  ;
+
+create index tbbd_item_idx1 on tbbd_item (item_no, parent_item_no, mb_id, board_no) ;
+  create unique index tbbd_item_idx0 on tbbd_item (mb_id, board_no, item_no) ;
+  create index tbbd_item_idx2 on tbbd_item (item_no, parent_item_no, mb_id, category_type, board_no) ;
+ 
+ 
+ 
+ create table tbbd_read_user 
+   (seq bigint primary key auto_increment comment '일련번호',
+    mb_id varchar(20) default ''  comment '회사ID', 
+	board_no varchar(22) default '0'  comment '게시판번호', 
+	item_no varchar(22) default '0'  comment '게시글번호', 
+	receiver_emp_cd varchar(20)  comment '수신자사원코드', 
+	read_dtm datetime  comment '일련번호'
+   ) engine=innodb default charset=utf8 comment '게시글 열람결과'
+   ;
+ 
+  create index tbbd_read_user_idx2 on tbbd_read_user (mb_id, receiver_emp_cd, item_no, board_no);
+  create index tbbd_read_user_idx3 on tbbd_read_user (mb_id, read_dtm, receiver_emp_cd, item_no, board_no);
+  create index tbbd_read_user_idx1 on tbbd_read_user (mb_id, board_no, item_no);
+ commit;
+
+select * from tbcm_insco;
+
+create table tbcm_insco 
+   ( mb_id varchar(20) default '' not null comment '회사코드', 
+	insco_cd varchar(3) default '' not null comment '보험사코드', 
+	insco_nm varchar(50) comment '보험사명', 
+	insco_type varchar(1) comment '보험사타입', 
+	preno varchar(20) comment '대표번호', 
+	faxno varchar(20) comment '팩스번호', 
+	helpno varchar(20) comment '헬프데스크', 
+	itno varchar(20) comment 'IT데스크', 
+	ci_url varchar(1000) comment 'CI URL', 
+	plan_url varchar(1000) comment '가입설계 URL', 
+	home_url varchar(1000) comment '홈페이지 URL', 
+	prtn_start_ymd varchar(10) comment '제휴시작일', 
+	prtn_end_ymd varchar(10) comment '제휴종료일', 
+	use_yn varchar(1) comment '사용여부', 
+	sort_no int comment '정렬순서', 
+	memo varchar(255) comment '메모', 
+	insco_email varchar(100) comment '보험사이메일',
+	insco_email2 varchar(100) comment '보험사이메일2',
+	insco_email3 varchar(100) comment '보험사이메일3',
+	insco_email4 varchar(100) comment '보험사이메일4',
+	insco_email5 varchar(100) comment '보험사이메일5',
+	in_emp_cd varchar(20) comment '입력자사번', 
+	in_dtm datetime comment '입력일시', 
+	up_emp_cd varchar(20) comment '수정자사번', 
+	up_dtm datetime comment '수정일시', 
+	constraint tbcm_insco_pk primary key (mb_id, insco_cd)
+   ) engine=innodb default charset=utf8 comment '보험사'
+  ;
+ 
+  create index tbcm_insco_idx1 on tbcm_insco (mb_id, insco_cd, use_yn, sort_no);
+ select * from tbsy_user_auth_num;
+
+
+select * from tbsy_resources;
+update tbsy_resources set mb_id = 'C00';
+commit;
+
+select * from tbcm_insco;
+select * from tbsy_resources_role trr ;
+
+INSERT into tbsy_resources_role (
+mb_id, role_id, resource_id , system_gubun, use_yn, view_auth, se_autr_type , in_autr_type , up_autr_type , de_autr_type , lo_autr_type , in_emp_cd , in_dtm, up_emp_cd, up_dtm
+)
+select 'C00', 'ROLE_99', a.resource_id, 'ERP', 'N', 'USER', 'N', 'N', 'N', 'N', 'N', 'system', now(), 'system', now() from tbsy_resources a;
+-- select 'C00', 'ROLE_1', a.resource_id, 'ERP', 'Y', 'ADMIN', 'Y', 'Y', 'Y', 'Y', 'Y', 'system', now(), 'system', now() from tbsy_resources a;
+-- select 'C00', 'ROLE_0', a.resource_id, 'ERP', 'Y', 'ADMIN', 'Y', 'Y', 'Y', 'Y', 'Y', 'system', now(), 'system', now() from tbsy_resources a;
+commit;
+
+select * from tbsy_resources_role;
+
+select * from tbin_scd;
+select * from tbsy_member;
+commit;
+
+select * from tbin_scd;
+select * from tbbd_auth_set;
+select * from tbbd_item;
+
+
+create table tbsy_roles_map 
+   (mb_id varchar(20) default '' not null comment '회원사ID', 
+	role_id varchar(50) default '' not null comment '권한ID', 
+	role_nm varchar(50) comment '권한명', 
+	login_autr_type varchar(20) comment '2Factor 인증여부', 
+	sort_no int comment '정렬순서', 
+	memo varchar(200) comment '메모', 
+	in_emp_cd varchar(20) comment '입력자사번', 
+	in_dtm datetime comment '입력일시', 
+	up_emp_cd varchar(20) comment '수정자사번', 
+	up_dtm datetime comment '수정자사번', 
+	 constraint tbsy_roles_map_pk primary key (mb_id, role_id)
+   ) engine=innodb default charset=utf8 comment '롤 매핑'
+  ;
+
+create index tbsy_roles_map_idx1 on tbsy_roles_map (role_id, mb_id);
+
+select * from tbsy_roles_map;
+insert into tbsy_roles_map (mb_id, role_id, role_nm, login_autr_type, sort_no, in_emp_cd, in_dtm, up_emp_cd, up_dtm)
+values ('C00', 'ROLE_0', '시스템관리자', 'SMS_N', '0', 'system', now(), 'system', now())
+, ('C00', 'ROLE_1', '운영관리자', 'SMS_N', '1', 'system', now(), 'system', now())
+, ('C00', 'ROLE_99', '사용자', 'SMS_N', '99', 'system', now(), 'system', now())
+;
+commit;
+
+alter table tbcm_common_code drop foreign key tbcm_common_code_fk;
+alter table tbcm_common_code add constraint tbcm_common_code_fk foreign key references tbcm_common_code_group (mb_id, grp_cmm_cd) on delete;
+;
+
+select * from tbsy_resources;
+
+CREATE TABLE `tbsy_upload_excel_data_month` (
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `com_ym` varchar(10) NOT NULL COMMENT '업적년월',
+  `excel_cd` varchar(30) NOT NULL COMMENT '입수데이터 구분 코드',
+  `excel_row` bigint(20) NOT NULL COMMENT '엑셀 row 번호',
+  `c001` text DEFAULT NULL COMMENT '컬럼 1',
+  `c002` text DEFAULT NULL COMMENT '컬럼 2',
+  `c003` text DEFAULT NULL COMMENT '컬럼 3',
+  `c004` text DEFAULT NULL COMMENT '컬럼 4',
+  `c005` text DEFAULT NULL COMMENT '컬럼 5',
+  `c006` text DEFAULT NULL COMMENT '컬럼 6',
+  `c007` text DEFAULT NULL COMMENT '컬럼 7',
+  `c008` text DEFAULT NULL COMMENT '컬럼 8',
+  `c009` text DEFAULT NULL COMMENT '컬럼 9',
+  `c010` text DEFAULT NULL COMMENT '컬럼 10',
+  `c011` text DEFAULT NULL COMMENT '컬럼 11',
+  `c012` text DEFAULT NULL COMMENT '컬럼 12',
+  `c013` text DEFAULT NULL COMMENT '컬럼 13',
+  `c014` text DEFAULT NULL COMMENT '컬럼 14',
+  `c015` text DEFAULT NULL COMMENT '컬럼 15',
+  `c016` text DEFAULT NULL COMMENT '컬럼 16',
+  `c017` text DEFAULT NULL COMMENT '컬럼 17',
+  `c018` text DEFAULT NULL COMMENT '컬럼 18',
+  `c019` text DEFAULT NULL COMMENT '컬럼 19',
+  `c020` text DEFAULT NULL COMMENT '컬럼 20',
+  `c021` text DEFAULT NULL COMMENT '컬럼 21',
+  `c022` text DEFAULT NULL COMMENT '컬럼 22',
+  `c023` text DEFAULT NULL COMMENT '컬럼 23',
+  `c024` text DEFAULT NULL COMMENT '컬럼 24',
+  `c025` text DEFAULT NULL COMMENT '컬럼 25',
+  `c026` text DEFAULT NULL COMMENT '컬럼 26',
+  `c027` text DEFAULT NULL COMMENT '컬럼 27',
+  `c028` text DEFAULT NULL COMMENT '컬럼 28',
+  `c029` text DEFAULT NULL COMMENT '컬럼 29',
+  `c030` text DEFAULT NULL COMMENT '컬럼 30',
+  `c031` text DEFAULT NULL COMMENT '컬럼 31',
+  `c032` text DEFAULT NULL COMMENT '컬럼 32',
+  `c033` text DEFAULT NULL COMMENT '컬럼 33',
+  `c034` text DEFAULT NULL COMMENT '컬럼 34',
+  `c035` text DEFAULT NULL COMMENT '컬럼 35',
+  `c036` text DEFAULT NULL COMMENT '컬럼 36',
+  `c037` text DEFAULT NULL COMMENT '컬럼 37',
+  `c038` text DEFAULT NULL COMMENT '컬럼 38',
+  `c039` text DEFAULT NULL COMMENT '컬럼 39',
+  `c040` text DEFAULT NULL COMMENT '컬럼 40',
+  `c041` text DEFAULT NULL COMMENT '컬럼 41',
+  `c042` text DEFAULT NULL COMMENT '컬럼 42',
+  `c043` text DEFAULT NULL COMMENT '컬럼 43',
+  `c044` text DEFAULT NULL COMMENT '컬럼 44',
+  `c045` text DEFAULT NULL COMMENT '컬럼 45',
+  `c046` text DEFAULT NULL COMMENT '컬럼 46',
+  `c047` text DEFAULT NULL COMMENT '컬럼 47',
+  `c048` text DEFAULT NULL COMMENT '컬럼 48',
+  `c049` text DEFAULT NULL COMMENT '컬럼 49',
+  `c050` text DEFAULT NULL COMMENT '컬럼 50',
+  `c051` text DEFAULT NULL COMMENT '컬럼 51',
+  `c052` text DEFAULT NULL COMMENT '컬럼 52',
+  `c053` text DEFAULT NULL COMMENT '컬럼 53',
+  `c054` text DEFAULT NULL COMMENT '컬럼 54',
+  `c055` text DEFAULT NULL COMMENT '컬럼 55',
+  `c056` text DEFAULT NULL COMMENT '컬럼 56',
+  `c057` text DEFAULT NULL COMMENT '컬럼 57',
+  `c058` text DEFAULT NULL COMMENT '컬럼 58',
+  `c059` text DEFAULT NULL COMMENT '컬럼 59',
+  `c060` text DEFAULT NULL COMMENT '컬럼 60',
+  `c061` text DEFAULT NULL COMMENT '컬럼 61',
+  `c062` text DEFAULT NULL COMMENT '컬럼 62',
+  `c063` text DEFAULT NULL COMMENT '컬럼 63',
+  `c064` text DEFAULT NULL COMMENT '컬럼 64',
+  `c065` text DEFAULT NULL COMMENT '컬럼 65',
+  `c066` text DEFAULT NULL COMMENT '컬럼 66',
+  `c067` text DEFAULT NULL COMMENT '컬럼 67',
+  `c068` text DEFAULT NULL COMMENT '컬럼 68',
+  `c069` text DEFAULT NULL COMMENT '컬럼 69',
+  `c070` text DEFAULT NULL COMMENT '컬럼 70',
+  `c071` text DEFAULT NULL COMMENT '컬럼 71',
+  `c072` text DEFAULT NULL COMMENT '컬럼 72',
+  `c073` text DEFAULT NULL COMMENT '컬럼 73',
+  `c074` text DEFAULT NULL COMMENT '컬럼 74',
+  `c075` text DEFAULT NULL COMMENT '컬럼 75',
+  `c076` text DEFAULT NULL COMMENT '컬럼 76',
+  `c077` text DEFAULT NULL COMMENT '컬럼 77',
+  `c078` text DEFAULT NULL COMMENT '컬럼 78',
+  `c079` text DEFAULT NULL COMMENT '컬럼 79',
+  `c080` text DEFAULT NULL COMMENT '컬럼 80',
+  `c081` text DEFAULT NULL COMMENT '컬럼 81',
+  `c082` text DEFAULT NULL COMMENT '컬럼 82',
+  `c083` text DEFAULT NULL COMMENT '컬럼 83',
+  `c084` text DEFAULT NULL COMMENT '컬럼 84',
+  `c085` text DEFAULT NULL COMMENT '컬럼 85',
+  `c086` text DEFAULT NULL COMMENT '컬럼 86',
+  `c087` text DEFAULT NULL COMMENT '컬럼 87',
+  `c088` text DEFAULT NULL COMMENT '컬럼 88',
+  `c089` text DEFAULT NULL COMMENT '컬럼 89',
+  `c090` text DEFAULT NULL COMMENT '컬럼 90',
+  `custom_column` text DEFAULT NULL COMMENT '특수컬럼',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `up_emp_cd` varchar(20) DEFAULT NULL COMMENT '수정자사번',
+  `up_dtm` datetime DEFAULT NULL COMMENT '수정일시',
+  PRIMARY KEY (`mb_id`,`com_ym`,`excel_cd`,`excel_row`),
+  KEY `tbsy_upload_excel_data_month_idx1` (`mb_id`,`com_ym`,`excel_cd`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] 월별 입수 엑셀 데이터'
+;
+
+commit;
+
+
+CREATE TABLE `tbsy_upload_excel_mapping_chk_month` (
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `com_ym` varchar(10) NOT NULL COMMENT '업적년월',
+  `excel_cd` varchar(30) NOT NULL COMMENT '입수데이터 구분 코드',
+  `data_cd` varchar(30) NOT NULL COMMENT '데이터코드',
+  `data_column` varchar(30) NOT NULL COMMENT '맵핑 컬럼',
+  `start_row` bigint(20) NOT NULL COMMENT '엑셀 입력 시작 로우번호',
+  `title_row` bigint(20) DEFAULT NULL COMMENT '엑셀 타이틀 로우번호',
+  `title_nm` varchar(100) DEFAULT NULL COMMENT '엑셀 타이틀 명',
+  `sort_no` bigint(20) NOT NULL COMMENT '정렬 순서',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  PRIMARY KEY (`mb_id`,`com_ym`,`excel_cd`,`data_cd`),
+  KEY `tbsy_upload_excel_mapping_chk_month_idx1` (`mb_id`,`com_ym`,`excel_cd`,`start_row`,`data_cd`,`data_column`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] 입수 엑셀 월별 맵핑 확인용'
+;
+
+CREATE TABLE `tbsy_upload_excel_mapping_month` (
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `com_ym` varchar(10) NOT NULL COMMENT '업적년월',
+  `excel_cd` varchar(30) NOT NULL COMMENT '입수데이터 구분 코드',
+  `data_cd` varchar(30) NOT NULL COMMENT '데이터코드',
+  `data_column` varchar(30) NOT NULL COMMENT '맵핑 컬럼',
+  `start_row` bigint(20) NOT NULL COMMENT '엑셀 입력 시작 로우번호',
+  `title_row` bigint(20) DEFAULT NULL COMMENT '엑셀 타이틀 로우번호',
+  `title_nm` varchar(100) DEFAULT NULL COMMENT '엑셀 타이틀 명',
+  `sort_no` bigint(20) NOT NULL COMMENT '정렬 순서',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `up_emp_cd` varchar(20) DEFAULT NULL COMMENT '수정자사번',
+  `up_dtm` datetime DEFAULT NULL COMMENT '수정일시',
+  PRIMARY KEY (`mb_id`,`com_ym`,`excel_cd`,`data_cd`),
+  KEY `tbsy_upload_excel_mapping_month_idx1` (`mb_id`,`com_ym`,`excel_cd`,`start_row`,`data_cd`,`data_column`),
+  KEY `mb_id` (`mb_id`,`excel_cd`,`data_cd`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] 입수 엑셀 월별 맵핑'
+;
+
+CREATE TABLE `tbsy_upload_excel_mst` (
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `excel_cd` varchar(30) NOT NULL COMMENT '입수데이터 구분 코드',
+  `excel_nm` varchar(30) NOT NULL COMMENT '입력데이터(EXCEL) 명',
+  `work_scope` varchar(30) NOT NULL COMMENT '업무구분 코드',
+  `insco_cd` varchar(3) DEFAULT NULL COMMENT '보험사코드',
+  `memo` varchar(200) DEFAULT NULL COMMENT '입수데이터 설명',
+  `sort_no` bigint(20) DEFAULT 1 COMMENT '정렬순서',
+  `sample_excel_file_no` varchar(40) DEFAULT NULL COMMENT '샘플 파일 번호',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `up_emp_cd` varchar(20) DEFAULT NULL COMMENT '수정자사번',
+  `up_dtm` datetime DEFAULT NULL COMMENT '수정일시',
+  PRIMARY KEY (`mb_id`,`excel_cd`),
+  KEY `tbsy_upload_excel_mst_idx1` (`mb_id`,`excel_cd`,`insco_cd`,`excel_nm`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] 입수 엑셀 마스터'
+;
+
+CREATE TABLE `tbsy_upload_excel_mapping_mst` (
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `excel_cd` varchar(30) NOT NULL COMMENT '입수데이터 구분 코드',
+  `data_cd` varchar(30) NOT NULL COMMENT '데이터코드',
+  `data_nm` varchar(30) NOT NULL COMMENT '데이터명',
+  `guide` varchar(50) DEFAULT NULL COMMENT '가이드 데이터',
+  `required` varchar(10) DEFAULT 'N' COMMENT '필수여부',
+  `default_val` varchar(100) DEFAULT 'N' COMMENT '맵핑 되었으나 빈값일때 기본값',
+  `code_change_type` varchar(20) DEFAULT '' COMMENT '코드 변환 유형',
+  `grp_cmm_cd` varchar(100) DEFAULT NULL COMMENT '그룹공통코드',
+  `start_cipher` smallint(6) DEFAULT NULL COMMENT '시작 자릿수',
+  `end_cipher` smallint(6) DEFAULT NULL COMMENT '끝 자릿수',
+  `remove_str` varchar(20) DEFAULT NULL COMMENT '삭제할문자열',
+  `sort_no` bigint(20) DEFAULT NULL COMMENT '정렬순서',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `up_emp_cd` varchar(20) DEFAULT NULL COMMENT '수정자사번',
+  `up_dtm` datetime DEFAULT NULL COMMENT '수정일시',
+  PRIMARY KEY (`mb_id`,`excel_cd`,`data_cd`),
+  KEY `tbsy_upload_excel_mst_idx1` (`mb_id`,`excel_cd`,`data_cd`),
+  CONSTRAINT `tbsy_upload_excel_mapping_mst_ibfk_1` FOREIGN KEY (`mb_id`, `excel_cd`) REFERENCES `tbsy_upload_excel_mst` (`mb_id`, `excel_cd`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] 입수 엑셀 맵핑마스터'
+;
+
+commit;
+
+CREATE TABLE `tbsy_upload_excel_status_month` (
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `com_ym` varchar(10) NOT NULL COMMENT '업적년월',
+  `excel_cd` varchar(30) NOT NULL COMMENT '입수데이터 구분 코드',
+  `upload_status` varchar(10) DEFAULT NULL COMMENT '업로드 상태(NA : 없음, OK : 업로드완료, SV : 저장완료, ER : 에러데이터 존재)',
+  `upload_cnt` bigint(20) DEFAULT 0 COMMENT '입수 데이터 개수',
+  `save_cnt` bigint(20) DEFAULT 0 COMMENT '저장 데이터 개수',
+  `err_cnt` bigint(20) DEFAULT 0 COMMENT '에러 데이터 개수',
+  `excel_file_no` varchar(50) DEFAULT NULL COMMENT '엑셀파일번호',
+  `gijun_datetime` varchar(20) DEFAULT NULL COMMENT '수금계약 데이터 기준일',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `up_emp_cd` varchar(20) DEFAULT NULL COMMENT '수정자사번',
+  `up_dtm` datetime DEFAULT NULL COMMENT '수정일시',
+  PRIMARY KEY (`mb_id`,`com_ym`,`excel_cd`),
+  KEY `tbsy_upload_excel_status_month_idx1` (`mb_id`,`com_ym`,`excel_cd`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] 월별 입수 엑셀 업로드 정보'
+;
+
+CREATE TABLE `tbsy_upload_mapping_errcode_month` (
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `com_ym` varchar(10) NOT NULL COMMENT '마감월',
+  `excel_cd` varchar(30) NOT NULL COMMENT '입수데이터 구분 코드',
+  `data_cd` varchar(30) NOT NULL COMMENT '데이터코드',
+  `excel_row` bigint(20) NOT NULL COMMENT '입수데이터 엑셀 row번호',
+  `err_data_cd` varchar(150) NOT NULL COMMENT '에러 데이터 코드',
+  `upload_err_type` varchar(150) NOT NULL COMMENT '에러 유형',
+  `upload_err_memo` varchar(150) NOT NULL COMMENT '에러 코드에 대한 메모',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  PRIMARY KEY (`mb_id`,`com_ym`,`excel_cd`,`data_cd`,`excel_row`,`upload_err_type`),
+  KEY `tbsy_upload_mapping_errcode_mst_idx1` (`mb_id`,`com_ym`,`excel_cd`,`data_cd`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] 월별 업로드 데이터 맵핑 에러 코드'
+;
+
+commit;
+
+CREATE TABLE `tbsy_upload_mapping_errcode_mst` (
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `excel_cd` varchar(30) NOT NULL COMMENT '입수데이터 구분 코드',
+  `data_cd` varchar(30) NOT NULL COMMENT '데이터코드',
+  `upload_err_type` varchar(30) NOT NULL COMMENT '에러유형(grp_cmm_cd = UPLOAD_ERR_TYPE)',
+  `custom_err_data` varchar(100) DEFAULT NULL COMMENT '커스텀 에러 데이터',
+  `upload_err_memo` varchar(150) NOT NULL COMMENT '에러 코드에 대한 메모',
+  `group_err_code1` varchar(30) DEFAULT NULL COMMENT '그룹 에러 코드1',
+  `group_err_code2` varchar(30) DEFAULT NULL COMMENT '그룹 에러 코드2',
+  `group_err_code3` varchar(30) DEFAULT NULL COMMENT '그룹 에러 코드3',
+  `group_err_code4` varchar(30) DEFAULT NULL COMMENT '그룹 에러 코드4',
+  `group_err_code5` varchar(30) DEFAULT NULL COMMENT '그룹 에러 코드5',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `up_emp_cd` varchar(20) DEFAULT NULL COMMENT '수정자사번',
+  `up_dtm` datetime DEFAULT NULL COMMENT '수정일시',
+  PRIMARY KEY (`mb_id`,`excel_cd`,`data_cd`,`upload_err_type`),
+  KEY `tbsy_upload_mapping_errcode_mst_idx1` (`mb_id`,`excel_cd`,`data_cd`,`upload_err_type`),
+  CONSTRAINT `tbsy_upload_mapping_errcode_mst_ibfk_1` FOREIGN KEY (`mb_id`, `excel_cd`, `data_cd`) REFERENCES `tbsy_upload_excel_mapping_mst` (`mb_id`, `excel_cd`, `data_cd`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] 맵핑 에러 데이터 코드 관리'
+;
+
+commit;
+
+CREATE TABLE `tbsy_upload_table_mst` (
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `table_name` varchar(50) NOT NULL COMMENT '테이블명',
+  `table_comment` varchar(30) NOT NULL COMMENT '테이블 코멘트',
+  `work_scope` varchar(30) NOT NULL COMMENT '업무구분 코드',
+  `delete_data_required` varchar(10) NOT NULL COMMENT '저장시 기존데이터 삭제 유무',
+  `sort_no` int(11) DEFAULT 1 COMMENT '정렬순서',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `up_emp_cd` varchar(20) DEFAULT NULL COMMENT '수정자사번',
+  `up_dtm` datetime DEFAULT NULL COMMENT '수정일시',
+  PRIMARY KEY (`mb_id`,`table_name`),
+  KEY `tbsy_upload_table_mst_idx1` (`mb_id`,`table_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] 엑셀 업로드 테이블 마스터'
+;
+
+commit;
+
+CREATE TABLE `tbsy_user_auth_hist` (
+  `seq` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '일련번호',
+  `mb_id` varchar(20) DEFAULT NULL COMMENT '회사코드',
+  `emp_nm` varchar(30) DEFAULT NULL COMMENT '사원명',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `bigo` varchar(20) DEFAULT NULL COMMENT '비고',
+  `data_dcd` varchar(10) DEFAULT NULL COMMENT '데이터 구분코드',
+  PRIMARY KEY (`seq`)
+) ENGINE=InnoDB AUTO_INCREMENT=1585 DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] 인증기록관리';
+
+CREATE TABLE `tbsy_user_auth_num` (
+  `mb_id` varchar(20) DEFAULT NULL COMMENT '회사코드',
+  `emp_nm` varchar(30) DEFAULT NULL COMMENT '사원명',
+  `authkey_num` varchar(20) DEFAULT NULL COMMENT '인증번호',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `bigo` varchar(20) DEFAULT NULL COMMENT '비고',
+  `data_dcd` varchar(10) DEFAULT NULL COMMENT '데이터 구분코드'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] 인증번호관리'
+;
+
+commit;
+
+CREATE TABLE `tbsy_pdf_info` (
+  `pdf_cd` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '일련번호',
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `pdf_nm` varchar(100) DEFAULT NULL COMMENT 'PDF명',
+  `file_seq` int(11) DEFAULT NULL COMMENT '파일 일련번호',
+  `use_yn` varchar(5) DEFAULT 'Y' COMMENT '사용여부',
+  `sort_no` int(11) DEFAULT NULL COMMENT '정렬순서',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `up_emp_cd` varchar(20) DEFAULT NULL COMMENT '수정자사번',
+  `up_dtm` datetime DEFAULT NULL COMMENT '수정일시',
+  PRIMARY KEY (`pdf_cd`)
+) ENGINE=InnoDB AUTO_INCREMENT=130 DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] PDF 정보'
+;
+
+commit;
+
+CREATE TABLE `tbsy_pdf_param_info` (
+  `param_cd` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '파라미터 코드',
+  `pdf_cd` bigint(20) DEFAULT NULL COMMENT 'PDF 코드',
+  `page_no` int(11) DEFAULT NULL COMMENT 'PDF 페이지번호',
+  `input_data_cd` varchar(100) DEFAULT NULL COMMENT '입력 데이터 코드',
+  `position_x` varchar(50) DEFAULT NULL COMMENT 'X좌표',
+  `position_y` varchar(50) DEFAULT NULL COMMENT 'Y좌표',
+  `term` varchar(50) DEFAULT NULL COMMENT '글자간격',
+  `letter_size` varchar(50) DEFAULT NULL COMMENT '글자크기',
+  `image_size` varchar(50) DEFAULT NULL COMMENT '이미지크기',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `up_emp_cd` varchar(20) DEFAULT NULL COMMENT '수정자사번',
+  `up_dtm` datetime DEFAULT NULL COMMENT '수정일시',
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `type` varchar(20) NOT NULL COMMENT '타입',
+  `input_data_nm` varchar(100) DEFAULT NULL COMMENT '입력 데이터명',
+  `compare_input_data_cd` varchar(100) DEFAULT NULL COMMENT '비교 입력 데이터 코드',
+  `compare_input_data` varchar(100) DEFAULT NULL COMMENT '비교 입력 데이터',
+  `font_color` varchar(20) DEFAULT NULL COMMENT '글자 색상',
+  PRIMARY KEY (`param_cd`)
+) ENGINE=InnoDB AUTO_INCREMENT=2562 DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] PDF 파라미터 정보'
+;
+
+CREATE TABLE `tbsy_luna_to_solar` (
+  `num` int(11) NOT NULL AUTO_INCREMENT COMMENT '일련번호',
+  `lunar_date` varchar(20) NOT NULL COMMENT '음력날짜',
+  `solar_date` varchar(20) NOT NULL COMMENT '양력날짜',
+  `yun` varchar(2) NOT NULL COMMENT '윤달:1, 평달:0',
+  `ganji` varchar(10) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT '간지',
+  PRIMARY KEY (`num`),
+  KEY `lunar_date` (`lunar_date`),
+  KEY `solar_date` (`solar_date`)
+) ENGINE=InnoDB AUTO_INCREMENT=109939 DEFAULT CHARSET=utf8
+;
+
+commit;
+
+select * from tbsy_luna_to_solar;
+
+
+CREATE TABLE `random_key_temp` (
+  `random_char` varchar(1) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='랜덤 키 생성시 사용되는 문자열 집합'
+;
+
+CREATE TABLE `tbsp_schedule` (
+  `mb_id` varchar(20) NOT NULL COMMENT '회사코드',
+  `seq` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '일련번호',
+  `schedule_start_ymd` varchar(10) DEFAULT NULL COMMENT '일정시작일',
+  `schedule_end_ymd` varchar(10) DEFAULT NULL COMMENT '일정종료일',
+  `schedule_type` varchar(30) DEFAULT NULL COMMENT '일정구분',
+  `schedule_title` varchar(200) DEFAULT NULL COMMENT '일정제목',
+  `schedule_content` varchar(5000) DEFAULT NULL COMMENT '일정내용',
+  `schedule_place` varchar(100) DEFAULT NULL COMMENT '일정장소',
+  `schedule_section` varchar(20) DEFAULT NULL COMMENT '스케쥴 구분',
+  `sort_no` bigint(20) DEFAULT NULL COMMENT '정렬순서',
+  `memo` varchar(200) DEFAULT NULL COMMENT '메모',
+  `bigo` varchar(1000) DEFAULT NULL COMMENT '비고',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '입력자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '입력일시',
+  `up_emp_cd` varchar(20) DEFAULT NULL COMMENT '수정자사번',
+  `up_dtm` datetime DEFAULT NULL COMMENT '수정일시',
+  PRIMARY KEY (`seq`),
+  KEY `tbsp_schedule_idx1` (`mb_id`,`schedule_type`)
+) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8 COMMENT='[SP][영업] 일정관리'
+;
+
+CREATE TABLE `tbsy_copymonth_all_log` (
+  `seq` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '일련번호',
+  `mb_id` varchar(20) DEFAULT NULL COMMENT '회사코드',
+  `com_ym` varchar(10) DEFAULT NULL COMMENT '실행 업적월',
+  `result` varchar(20) DEFAULT NULL COMMENT '성공/에러 결과',
+  `message` varchar(4000) DEFAULT NULL COMMENT '성공/에러 메세지',
+  `in_dtm` datetime DEFAULT NULL COMMENT '에러 발생 시간',
+  PRIMARY KEY (`seq`),
+  KEY `tbsy_error_log_idx1` (`seq`,`com_ym`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] prc_copymonth_all 로그'
+;
+
+commit;
+
+CREATE TABLE `tbsy_copymonth_log` (
+  `seq` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '일련번호',
+  `mb_id` varchar(20) DEFAULT NULL COMMENT '회사코드',
+  `com_ym` varchar(10) DEFAULT NULL COMMENT '실행 업적월',
+  `in_table_type` varchar(10) DEFAULT NULL COMMENT '테이블명',
+  `result` varchar(20) DEFAULT NULL COMMENT '성공/에러 결과',
+  `message` text DEFAULT NULL COMMENT '성공/에러 메세지',
+  `in_emp_cd` varchar(20) DEFAULT NULL COMMENT '실행자사번',
+  `in_dtm` datetime DEFAULT NULL COMMENT '에러 발생 시간',
+  PRIMARY KEY (`seq`),
+  KEY `tbsy_copymonth_log_idx1` (`seq`,`mb_id`,`com_ym`,`in_table_type`,`result`)
+) ENGINE=InnoDB AUTO_INCREMENT=190 DEFAULT CHARSET=utf8 COMMENT='[SY][시스템] tbsy_copymonth_log 로그'
+;

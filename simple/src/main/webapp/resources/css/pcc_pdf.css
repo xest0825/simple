@@ -1,0 +1,102 @@
+@charset "utf-8";
+
+/* ==================== GOLBAL ==================== */
+*{margin:0;padding:0;font-family:"MalgunGothic", "굴림", "Gulim", "Arial";color: black;}
+body{color:#333;font-size:12px;font-family:"MalgunGothic", "굴림", "Gulim", "Arial";}
+body, table, div, p {font-family:"MalgunGothic", "굴림", "Gulim", "Arial"; letter-spacing: -1px}
+
+
+
+td *, div *, li *, span *, p *  {vertical-align: middle;}
+ul, ol, li{list-style:none; }
+img, hr{border:none;}
+img{position:fixed; border:0px ;}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+p{
+	/* color: #555; */
+}
+/* Link Style */
+a:link		{text-decoration:none;}
+a:visited	{text-decoration:none;}
+a:active	{text-decoration:none;}
+a:hover		{text-decoration:underline;}
+
+/* Table Style */
+table{border-collapse:collapse;  border-spacing:0; table-layout:fixed; }
+table td img{vertical-align:middle;}
+
+.outer{
+	width: 100%;
+	border: 3px solid #0080ff;
+}
+
+/* ==================== WIDTH ==================== */
+.wd-full{ width: 100%; }
+.wd-10{ width: 10%; }
+.wd-30{ width: 30%; }
+
+.h-full{ height: 100%;}
+
+/* ==================== ALIGN OPTION ==================== */
+.col-l{ text-align: left !important;}
+.col-r{ text-align: right !important;}
+.col-c{ text-align: center !important;}
+
+/* ==================== TEXT SIZE ==================== */
+.s15 { font-size: 15px; }
+.s18 { font-size: 18px; }
+.s21 { font-size: 21px; }
+.s24 { font-size: 24px; }
+.s30 { font-size: 30px; }
+
+/* ==================== LINE HEIGHT ==================== */
+.p5 { padding: 5px;}
+.p10 { padding: 10px;}
+.p15 { padding: 15px;}
+
+/* ==================== BOLD ==================== */
+.str{ font-weight: bold;/* color: #555; */}
+
+/* ==================== LETTER-SPACING ==================== */
+.lsp-m{ letter-spacing: -1px; }
+.lsp-p{ letter-spacing: 3px; }
+.lsp-po{ letter-spacing: 1px; }
+
+/* ==================== BORDER ==================== */
+.out-b-top{ border-top: 2px solid #0080ff;}
+.out-b-bottom{ border-bottom: 2px solid #0080ff;}
+.out-b-left{ border-left: 2px solid #0080ff;}
+.out-b-right{ border-right: 2px solid #0080ff;}
+
+.in-b-top{ border-top: 1px solid #898989;}
+.in-b-bottom{ border-bottom: 1px solid #898989;}
+.in-b-left{ border-left: 1px solid #898989;}
+.in-b-right{ border-right: 1px solid #898989;}
+
+.str-b-top{ border-top: 6px solid #ff8000;}
+.str-b-bottom{ border-bottom: 6px solid #ff8000;}
+.str-b-left{ border-left: 6px solid #ff8000;}
+.str-b-right{ border-right: 6px solid #ff8000;}
+
+.foot-b{ border: 1px solid #555;}
+/* ==================== LINE-HEIGHT ==================== */
+.l25{line-height: 25px;}
+
+
+/* ==================== COLOR ==================== */
+.t-1{
+	color: #005bb7;
+	/* background-color: #cee9ff; */
+}
+.t-3{
+	background-color: #e3e3e3;
+}
+.s-1{
+	background-color: #e3e3e3;
+}
+.s-2{
+	color: #004080;
+}

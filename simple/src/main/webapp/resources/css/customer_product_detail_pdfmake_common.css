@@ -1,0 +1,129 @@
+@charset "utf-8";
+
+/* ==================== GOLBAL ==================== */
+*{margin:0;padding:0;font-family:"MalgunGothic", "굴림", "Gulim", "Arial";}
+body{background-color:#f4f7fa;color:#333;font-size:12px;font-family:"MalgunGothic", "굴림", "Gulim", "Arial";}
+body, table, div, p {font-family:"MalgunGothic", "굴림", "Gulim", "Arial"; letter-spacing: -1px}
+
+td *, div *, li *, span *, p *  {vertical-align: middle;}
+ul, ol, li{list-style:none; }
+img, hr{border:none;}
+img{position:fixed; border:0px ;}
+th {
+    font-weight: bold;
+    text-align: center;
+}
+p {
+    font-weight: bold;
+    text-align: center;
+}
+td, th {
+    display: table-cell;
+    vertical-align: inherit;
+}
+/* Link Style */
+a:link		{text-decoration:none;}
+a:visited	{text-decoration:none;}
+a:active	{text-decoration:none;}
+a:hover		{text-decoration:underline;}
+
+/* Table Style */
+table{border-collapse:collapse;  border-spacing:0; table-layout:fixed; }
+table td img{vertical-align:middle;}
+
+/* From Style */
+/* textarea{padding:5px; border: solid 1px #bdbdbd; background-color:#fff;}
+input{vertical-align:middle;}
+input[type="text"] {width:166px;vertical-align:middle;height: 28px; line-height:28px; border: solid 1px #bdbdbd; background-color:#fff;padding:0 2px;}
+input.chk{}
+input.radio{}
+select			{height: 28px; line-height:28px; border: solid 1px #bdbdbd; background-color:#fff;vertical-align:middle;}
+caption		    {display:none;}
+legend			{position:absolute; height:0; font-size:0px; line-height:0; overflow:hidden; text-indent:-20000px; }
+address,cite,em	{font-style:normal;}
+fieldset		{border:0; padding:0; }
+label			{cursor:pointer;}
+img, fieldset, button{border:none;}
+caption{visibility:hidden;line-height:0;}
+li, dl, dt, dd{list-style:none;}
+textarea{overflow:auto;} 
+legend{position:absolute;top:0;left:0;width:0;height:0;overflow:hidden;visibility:hidden;font-size:0;line-height:0;} For Screen Reader 
+sup {position:relative;top:-4px;} */
+
+/* ==================== Layout ==================== */
+#container {width:1024px; height:150%; margin:0 auto;position:relative;}
+
+
+/* ==================== Title ==================== */
+
+h2 {margin: 10px 0 10px 0;letter-spacing: -1px;font-size: 20px;color: #222;font-weight:bold;padding-left: 10px;}
+h2.tit_2 {width: 371px; height: 35px; text-indent:-9999px; margin:10px 0 20px 0;}
+
+/* ==================== 스타일추가 ==================== */
+
+/* 기타 */
+.col7{color:#777 !important;}
+.vat{vertical-align:top !important;}
+.tar {text-align:right !important; font-size: 15px}
+.tal {text-align:left !important;}
+.bb0 {border-bottom: none !important;}
+.br0 {border-right: none !important;}
+.bl0 {border-left: none !important;}
+.bt0 {border-top: none !important;}
+.fl {float:left !important;}
+.hr1 {height: 1px;background: #ccc;margin: 15px 0;}
+.bt6{border-top:6px solid #f7682a !important;}
+.br6{border-right:6px solid #f7682a !important;}
+.bb6{border-bottom:6px solid #f7682a !important;}
+.bl6{border-left:6px solid #f7682a !important;}
+.bt2{border-top:2px solid #31609e !important;}
+.br2{border-right:2px solid #31609e !important;}
+.bb2{border-bottom:2px solid #31609e !important;}
+.bl2{border-left:2px solid #31609e !important;}
+
+.lbb1{background:#354052 !important;border-bottom:1px solid #2a3240 !important; color:#7eade9; font-weight: bold;}
+.lbr1{border-right:1px solid #2a3240 !important;}
+
+.txt0{font-size: 22px;font-weight: normal;letter-spacing: 2px;height: 35px !important;}
+.txt1{font-size: 18px;color: #222;font-weight: bold;letter-spacing: -2px;}
+.txt2{font-weight: bold;color: #000; font-size:20px;}
+.txt3{font-weight: bold;color: #0090ff; font-size:18px;text-align: left;}
+.txt4{font-size: 30px;color: #0090ff;}
+.mtxt1{color: #fff; background: #5290e0 !important;font-size: 14px;font-weight: bold;border-bottom: 1px solid #2c568d !important;}
+.txt5{padding-left:30px; color:#666; font-size: 15px; text-align: left; margin-top: 5px; font-weight: bold}
+.txt_6{ font-size: 18px;padding-left:10px; padding-right: 20px; color:#ffffff !important;padding-top:10px;padding-bottom:5px;font-weight:bold;}
+.txt_7{ font-size: 18px;color:#ffffff !important;font-weight:bold;}
+.fontSz{ font-size: 18px;}
+
+.top {background:#4984D0 !important;}
+.top p {color:#fff; font-size: 30px;letter-spacing: -5px; display: table; text-shadow: 0 0 6px #255da4, 0 0 6px #255da4;font-weight: 600;}
+.top ul {color:#fff; font-weight: bold;}
+.ptxt_1 {color:#fff; font-size: 35px;display: table; text-shadow: 0 0 6px #255da4, 0 0 6px #255da4;font-weight: bold;padding-top: 5px;padding-bottom: 5px;}
+
+.content {}
+
+/* ==================== Table ==================== */
+
+.table_st0 {width: 100%;}
+.table_st0 th {background-color:#e7edf5;color:#000;white-space:nowrap;border-bottom: 1px solid #b5bac0;border-right: 2px solid #31609e;padding:5px;paddbox-sizing: border-box;}
+.table_st0 td {padding:6px; background:#fff;border-bottom: solid 1px #d8d8d8;border-right: solid 1px #d8d8d8;text-align:center;font-weight:bold;}
+.table_in1 {width: 100%;border:1px solid #999;text-align:center;color:#222;padding-top: 10px;}
+.table_in1 th{background:#ccd5df; font-weight: bold}
+.table_in1 td{color:#222; height: 28px !important;}
+
+/* .tr0 {height: 37px !important;}
+.tr1 {height: 42px !important;}
+.tr2 {height: 53px !important;}
+.tr3 {height: 85px !important;}
+.tr4 {height: 100px !important;} */
+
+.bot_1 {margin-right: 80px; font-size: 15px; font-weight: bold; padding-top: 20px;}
+.bot_2 {font-size: 18px;font-weight: bold;padding-top: 20px; padding-left: 100px;}
+.bot_3 {font-size: 18px;font-weight: bold;padding-top: 20px; padding-left: 155px;}
+.move_img {position: absolute; float:right;}
+ 
+.brtag{display: block; padding-bottom: 10px;}
+/* ==================== Table ==================== */
+.left_space{
+	padding-left: 20px;
+}

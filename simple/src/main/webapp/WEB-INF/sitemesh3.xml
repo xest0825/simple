@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<sitemesh>
+    
+    <mapping path="/m/login.go" decorator="/WEB-INF/sitemesh/layout_mobile_login.jsp"/><!-- 중간경로를 모두 포험한다. layout.jsp 와 순서는 상관없다 -->
+    <mapping path="/m/*.go" decorator="/WEB-INF/sitemesh/layout_mobile.jsp"/><!-- 중간경로를 모두 포험한다. layout.jsp 와 순서는 상관없다 -->
+    <mapping path="/*.go" decorator="/WEB-INF/sitemesh/layout.jsp"/><!-- /m/ 이 포험되지 않고 중간 경로를 모두 포함한다.  -->
+    <mapping path="/*.pop" decorator="/WEB-INF/sitemesh/layoutPop.jsp"/>
+    
+	
+    <mapping path="/api/*" 			exclude="true"/>
+    <mapping path="/resources/*" 	exclude="true"/>
+    <mapping path="/files/*" 		exclude="true"/>
+    <mapping path="**/*.ajax" 		exclude="true"/>
+    <mapping path="**/*.do" 		exclude="true"/>
+    <mapping path="/favicon.ico" 	exclude="true"/>
+
+</sitemesh>

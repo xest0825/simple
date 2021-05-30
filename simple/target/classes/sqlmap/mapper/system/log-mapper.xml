@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Log">
+
+
+	<!-- 로그인 이력 등록 -->
+	<insert id="insertLoginLog" parameterType="Hmap">
+	/* logs-mapper.xml insertLoginLog 로그인 이력 등록 -- */
+	INSERT
+	  INTO tbcm_login_log /* [공통] 로그인 이력 */
+	     ( 
+	       login_id 		/* VARCHAR(100)  	'사용자 ID' 	*/
+		 , login_dtm    	/* DATETIME  		'로그인 일시' 	*/
+		 , login_env    	/* VARCHAR(1000)  	'로그인 환경' 	*/
+		 , login_ip 		/* VARCHAR(30) 	 	'로그인 IP' 	*/
+		 , devc_id 	   		/* VARCHAR(256)  	'기기 ID'	 	*/
+		 , sssn_id 	   		/* VARCHAR(256)  	'세션 ID'		*/
+		 , conn_id 	   		/* VARCHAR(256) 	'접속 ID' 		*/
+		 , mb_id			/* VARCHAR(20)  	'회원사 ID' 	*/
+	     )
+	VALUES
+	     (
+	       #{login_id} 		/* VARCHAR(100)  	'사용자 ID' 	*/
+		 , NOW()    		/* DATETIME  		'로그인 일시' 	*/
+		 , #{login_env}    	/* VARCHAR(1000)  	'로그인 환경' 	*/
+		 , #{login_ip} 		/* VARCHAR(30) 	 	'로그인 IP' 	*/
+		 , #{devc_id} 	   	/* VARCHAR(256)  	'기기 ID' 		*/
+		 , #{sssn_id} 	   	/* VARCHAR(256)  	'세션 ID' 		*/
+		 , #{conn_id} 	   	/* VARCHAR(256) 	'접속 ID' 		*/
+		 , #{mb_id}			/* VARCHAR(20)  	'회원사 ID' 	*/
+	     )
+	</insert>
+
+
+
+	<!-- 문자전송로그  -->
+	<insert id="insertMessageLog" parameterType="Hmap">
+	/* logs-mapper.xml  insertMessageLog 문자전송로그   */
+	INSERT
+	  INTO tbpc_sms_logs 	/* [확인서]문자전송 로그 */
+	     ( mb_id            /* 회사코드     varchar2(50)  */
+	     , empcd            /* 사원코드     varchar2(50)  */
+	     , send_date        /* 보낸날짜     date(7)       */
+	     , service_type     /* 문자타입     varchar2(10)  */
+	     , callback         /* 전송번호     varchar2(100) */
+	     , recipient_num    /* 받는사람번호 varchar2(100) */
+	     , subject          /* 문자제목     varchar2(100) */
+	     , content          /* 문자내용     varchar2(200) */
+	     , scd              /* 조직코드     varchar2(100) */
+	     , gubun
+	     )
+	VALUES
+	     ( #{MB_ID        }   /* 회사코드     VARCHAR2(50)  */
+	     , #{EMPCD        }   /* 사원코드     VARCHAR2(50)  */
+	     , now()     		  /* 보낸날짜     DATE(7)       */
+	     , #{SERVICE_TYPE }   /* 문자타입     VARCHAR2(10)  */
+	     , TRIM(#{CALLBACK     })   /* 전송번호     VARCHAR2(100) */
+	     , TRIM(#{RECIPIENT_NUM})   /* 받는사람번호 VARCHAR2(100) */
+	     , #{SUBJECT      }   /* 문자제목     VARCHAR2(100) */
+	     , #{CONTENT      }   /* 문자내용     VARCHAR2(200) */
+	     , TRIM(#{SCD          })   /* 조직코드     VARCHAR2(100) */
+	     , #{GUBUN}
+	     )
+	</insert>
+	
+
+	<!-- [APP]로그인 이력 등록 -->
+	<insert id="insertAppLoginLog" parameterType="Hmap">
+		/* log-mapper.xml insertAppLoginLog [시스템] 앱 로그인 이력 등록 */
+		INSERT
+		  INTO tb_sy_app_login_log /* [시스템] 앱 로그인 이력  */
+		     ( mb_id 				/* VARCHAR(50) 	회사코드    */
+			 , login_tp	 			/* VARCHAR(50) 	로그인 유형 */
+			 , devc_tp 				/* VARCHAR(5) 	기기 유형   */
+			 , devc_id 				/* VARCHAR(255) 기기 ID     */
+			 , login_tm 			/* DATETIME 	로그인 일시 */
+			 , login_ip 			/* VARCHAR(20) 	로그인 IP   */
+			 , user_id 				/* VARCHAR(100) 사용자 ID   */
+			 , app_ver 				/* VARCHAR(100) 앱 버전     */
+		     )
+		VALUES
+		     ( #{mb_id} 			/* VARCHAR(50) 	회사코드    */
+			 , #{login_tp}	 		/* VARCHAR(50) 	로그인 유형 */
+			 , #{devc_tp} 			/* VARCHAR(5) 	기기 유형   */
+			 , #{devc_id} 			/* VARCHAR(255) 기기 ID     */
+			 , #{login_tm} 			/* DATETIME 	로그인 일시 */
+			 , #{login_ip} 			/* VARCHAR(20) 	로그인 IP   */
+			 , #{user_id} 			/* VARCHAR(100) 사용자 ID   */
+			 , #{app_ver} 			/* VARCHAR(100) 앱 버전     */
+		     )
+	</insert>
+
+
+	<insert id="insertActionLog" parameterType="Hmap" >
+		/* log-mapper.xml insertActionLog 액션 이력 등록 */
+		INSERT
+		  INTO tb_sy_action_log
+		     ( 
+		       action_dtm 		/* DATETIME  		'액션 일시'   */
+			 , user_id 			/* VARCHAR(256)  	'사용자 UUID' */
+			 , action_url 		/* VARCHAR(200)  	'액션 URL'    */
+			 , user_ip			/* VARCHAR(30) 		'사용자 IP'   */
+			 , conn_env			/* VARCHAR(1000) 	'접속 환경'   */
+			 , conn_id			/* VARCHAR(1000)    '접속 ID' 	  */
+			 , param 			/* TEXT  			'파라미터'    */
+		     )
+		VALUES
+		     (
+		       NOW() 			/* DATETIME  		'액션 일시'   */
+			 , #{user_id} 		/* VARCHAR(256)  	'사용자 UUID' */
+			 , #{action_url} 	/* VARCHAR(200)  	'액션 URL'    */
+			 , #{user_ip}		/* VARCHAR(30) 		'사용자 IP'   */
+			 , #{conn_env}		/* VARCHAR(1000) 	'접속 환경'   */
+			 , #{conn_id}		/* VARCHAR(1000)    '접속 ID' 	  */
+			 , #{param} 		/* TEXT  			'파라미터'    */
+		     )
+	</insert>
+
+	<insert id="insertConnectionLog" parameterType="Hmap">
+		/* logs-mapper.xml insertConnectionLog 접속 이력 입력 */
+		INSERT 
+		  INTO tb_sy_conn_log
+		     (
+		       conn_id 			/* VARCHAR(256)		'접속 ID'  */
+			 , conn_dtm 		/* DATETIME  		'접속시간' */
+			 , conn_env 		/* TEXT  			'접속환경' */
+			 , conn_ip 			/* VARCHAR(30)  	'접속 IP'  */
+			 , sssn_id 			/* VARCHAR(100)  	'세션 ID'  */
+			 , devc_id 			/* VARCHAR(256)  	'기기 ID'  */
+		     )
+		VALUES
+			 (
+			   #{conn_id} 		/* VARCHAR(256)		'접속 ID'  */
+			 , NOW() 			/* DATETIME  		'접속시간' */
+			 , #{conn_env} 		/* TEXT  			'접속환경' */
+			 , #{conn_ip} 		/* VARCHAR(30)  	'접속 IP'  */
+			 , #{sssn_id} 		/* VARCHAR(100)  	'세션 ID'  */
+			 , #{devc_id} 		/* VARCHAR(256)  	'기기 ID'  */
+			 , 
+			 )
+	</insert>
+	
+	<insert id="insertErrorLog" parameterType="Hmap">
+		/* logs-mapper.xml insertErrorLog */
+		INSERT
+		  INTO tb_sy_err_log 
+		     (
+			   err_dtm 			/* DATETIME  		'오류 일시' 		*/
+			 , err_sts 			/* VARCHAR(10)  	'오류 상태 (코드)' 	*/
+			 , err_cls 			/* VARCHAR(200) 	'오류 발생 클래스' 	*/
+			 , err_msg 			/* VARCHAR(4000)  	'오류 메시지' 		*/
+			 , err_trc 			/* VARCHAR(4000)  	'오류 트레이스' 	*/
+			 , param   			/* TEXT */
+			 , user_id 			/* VARCHAR(256)  	'사용자 UUID' 		*/
+			 , conn_id   		/* VARCHAR(256)  	'접속 ID' 			*/
+		     )
+		VALUES
+			 (
+			   NWO() 			/* DATETIME  		'오류 일시' 		*/
+			 , #{err_sts} 		/* VARCHAR(10)  	'오류 상태 (코드)' 	*/
+			 , #{err_cls} 		/* VARCHAR(200) 	'오류 발생 클래스' 	*/
+			 , #{err_msg} 		/* VARCHAR(4000)  	'오류 메시지' 		*/
+			 , #{err_trc} 		/* VARCHAR(4000)  	'오류 트레이스'	 	*/
+			 , #{param}   		/* TEXT */
+			 , #{user_id} 		/* VARCHAR(256)  	'사용자 UUID' 		*/
+			 , #{conn_id}   	/* VARCHAR(256)  	'접속 ID' 			*/
+			 )
+	</insert>
+</mapper>
